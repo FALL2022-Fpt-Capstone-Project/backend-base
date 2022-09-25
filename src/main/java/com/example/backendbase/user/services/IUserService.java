@@ -12,4 +12,6 @@ public interface IUserService {
 
     Object singup(RegisterRequest registerRequest);
 
+    String logout();
+
 }

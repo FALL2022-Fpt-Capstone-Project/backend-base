@@ -27,4 +27,9 @@ public class LoginController {
     public ResponseEntity<?> signup(@RequestBody RegisterRequest registerRequest){
         return ResponseUtils.httpResponse(userService.singup(registerRequest));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody RegisterRequest registerRequest){
+        return ResponseUtils.httpResponse(userService.logout());
+    }
 }

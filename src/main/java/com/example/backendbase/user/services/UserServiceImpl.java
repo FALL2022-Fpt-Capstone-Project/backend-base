@@ -22,11 +22,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-
 
 
 @Service
@@ -58,7 +58,7 @@ public class UserServiceImpl implements IUserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserAuthenDetailsImpl userDetails = (UserAuthenDetailsImpl) authentication.getPrincipal();
 
-        return jwtUtils.generateJwtCookie(userDetails).toString();
+        return jwtUtils.generateJwtCookie(userDetails).getValue();
     }
 
     @Override
@@ -106,5 +106,10 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(user);
 
         return user;
+    }
+
+    public String logout() {
+        jwtUtils.getCleanJwtCookie();
+        return "You've been signed out!";
     }
 }
