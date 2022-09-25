@@ -3,7 +3,7 @@ package com.example.backendbase.security.configurations;
 import com.example.backendbase.security.service.IUserDetailsAuth;
 import com.example.backendbase.security.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,15 +31,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String jwt = parseJwt(request);
-        if (jwt == null && !jwtUtils.validateJwtToken(jwt)) {
+        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails,
-                            null,
-                            userDetails.getAuthorities());
+            var authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                    null,
+                    userDetails.getAuthorities());
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
