@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -50,15 +51,19 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public String signin(LoginRequest loginRequest) {
-
+    public LoginResponse signin(LoginRequest loginRequest) {
+        jwtUtils.getCleanJwtCookie();
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserAuthenDetailsImpl userDetails = (UserAuthenDetailsImpl) authentication.getPrincipal();
 
-        return jwtUtils.generateJwtCookie(userDetails).getValue();
+        return LoginResponse.builder()
+                .token(jwtUtils.generateJwtCookie(userDetails).getValue())
+                .role(authentication.getAuthorities().stream()
+                        .map(r -> r.getAuthority()).collect(Collectors.toSet()))
+                .build();
     }
 
     @Override
