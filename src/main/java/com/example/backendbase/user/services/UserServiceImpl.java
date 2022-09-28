@@ -1,6 +1,7 @@
 package com.example.backendbase.user.services;
 
 import com.example.backendbase.security.service.UserAuthenDetailsImpl;
+import com.example.backendbase.user.entity.LoginResponse;
 import com.example.backendbase.user.repo.RoleRepo;
 import com.example.backendbase.user.repo.UserRepo;
 import com.example.backendbase.security.enums.ERole;
