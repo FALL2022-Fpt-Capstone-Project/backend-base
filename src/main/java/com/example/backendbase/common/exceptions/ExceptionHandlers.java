@@ -1,4 +1,4 @@
-package com.example.backendbase.common.logging.exceptions;
+package com.example.backendbase.common.exceptions;
 
 import com.example.backendbase.common.entity.response.Response;
 import com.example.backendbase.common.entity.response.ResponseStatus;
