@@ -12,18 +12,12 @@ import com.example.backendbase.user.entity.request.LoginRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -35,20 +29,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    UserRepo userRepository;
+    private final UserRepo userRepository;
 
-    @Autowired
-    RoleRepo roleRepository;
+    private final RoleRepo roleRepository;
 
-    @Autowired
-    PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
 
 
     @Override
@@ -69,7 +58,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @SneakyThrows
-    public Object singup(RegisterRequest signUpRequest) {
+    public User singup(RegisterRequest signUpRequest) {
         if (userRepository.findByUsername(signUpRequest.getUserName()).isPresent()) {
             throw new Exception("Error: Username existed!!");
         }

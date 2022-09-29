@@ -1,6 +1,7 @@
 package com.example.backendbase.user.controller;
 
 import com.example.backendbase.common.utils.ResponseUtils;
+import com.example.backendbase.user.entity.User;
 import com.example.backendbase.user.entity.request.LoginRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
 import com.example.backendbase.user.services.IUserService;
@@ -19,17 +20,17 @@ public class LoginController {
     IUserService userService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<Object> signin(@RequestBody LoginRequest loginRequest){
         return ResponseUtils.httpResponse(userService.signin(loginRequest));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<Object> signup(@RequestBody RegisterRequest registerRequest){
         return ResponseUtils.httpResponse(userService.singup(registerRequest));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<Object> logout(@RequestBody RegisterRequest registerRequest){
         return ResponseUtils.httpResponse(userService.logout());
     }
 }
