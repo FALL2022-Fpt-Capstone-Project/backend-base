@@ -28,7 +28,6 @@ public class BuildingController {
     @GetMapping("/get-building/{buildingId}")
     public ResponseEntity<Object> updateBuilding(@PathVariable("buildingId") Long buildingId){
         return ResponseUtils.httpResponse(buildingManagerService.getBuilding(buildingId));
-        //hello 123
     }
 
 }
