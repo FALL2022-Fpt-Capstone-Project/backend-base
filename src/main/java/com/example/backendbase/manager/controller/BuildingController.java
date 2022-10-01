@@ -25,8 +25,8 @@ public class BuildingController {
         return ResponseUtils.httpResponse(buildingManagerService.updateBuilding(request));
     }
 
-    @GetMapping("/get-building-information/{buildingId}")
-    public ResponseEntity<Object> updateBuilding(@PathVariable("buildingId") Long buildingId){
+    @GetMapping("/get-building-information/{Id}")
+    public ResponseEntity<Object> getBuilding(@PathVariable("Id") Long buildingId){
         return ResponseUtils.httpResponse(buildingManagerService.getBuilding(buildingId));
     }
 
