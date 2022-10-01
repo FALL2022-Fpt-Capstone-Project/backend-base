@@ -20,12 +20,12 @@ public class BuildingController {
         return ResponseUtils.httpResponse(buildingManagerService.addNewBuilding(request));
     }
 
-    @PostMapping("/update-building")
+    @PostMapping("/update-building-information")
     public ResponseEntity<Object> updateBuilding(@RequestBody UpdateBuildingRequest request){
         return ResponseUtils.httpResponse(buildingManagerService.updateBuilding(request));
     }
 
-    @GetMapping("/get-building/{buildingId}")
+    @GetMapping("/get-building-information/{buildingId}")
     public ResponseEntity<Object> updateBuilding(@PathVariable("buildingId") Long buildingId){
         return ResponseUtils.httpResponse(buildingManagerService.getBuilding(buildingId));
     }
