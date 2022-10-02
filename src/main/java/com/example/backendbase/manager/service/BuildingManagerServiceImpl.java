@@ -41,7 +41,7 @@ public class BuildingManagerServiceImpl implements IBuildingManager {
         Buildings building = buildingRepo.findById(request.getBuildingId()).orElseThrow(() -> new RuntimeException("Error: Buildings is not found."));
         building.setBuildingName(request.getBuildingName());
         building.setTotalRooms(request.getTotalRoom());
-
+        building.setTotalFloors(request.getTotalFloor());
         //set address
         building.getAddress().setCity(request.getCity());
         building.getAddress().setDistrict(request.getDistrict());
@@ -49,7 +49,6 @@ public class BuildingManagerServiceImpl implements IBuildingManager {
         building.getAddress().setMoreDetails(request.getMoreAddressDetail());
         building.getAddress().setCreatedBy(CurrentUserUtils.getCurrentUser());
         building.getAddress().setUpdatedTime(TimeUtils.getCurrentTime());
-
 
         building.setCreatedBy(CurrentUserUtils.getCurrentUser());
         building.setUpdatedTime(TimeUtils.getCurrentTime());

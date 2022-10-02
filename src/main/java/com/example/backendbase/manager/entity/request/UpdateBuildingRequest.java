@@ -19,6 +19,9 @@ public class UpdateBuildingRequest {
     @JsonProperty("building_total_room")
     private int totalRoom;
 
+    @JsonProperty("building_total_floor")
+    private int totalFloor;
+
     @JsonProperty("building_address_city")
     private String city;
 
