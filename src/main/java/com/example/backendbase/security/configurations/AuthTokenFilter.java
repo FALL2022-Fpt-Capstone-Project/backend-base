@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 @Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -30,9 +29,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String jwt = parseJwt(request);
-        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        final String authorizationHeaderValue = request.getHeader("Authorization");
+        if (authorizationHeaderValue != null && authorizationHeaderValue.startsWith("Bearer")) {
+
+            String token = authorizationHeaderValue.substring(7);
+
+            jwtUtils.validateJwtToken(token);
+//            String jwt = parseJwt(request);
+//        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            String username = jwtUtils.getUserNameFromJwtToken(token);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -41,6 +46,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+//        }
         }
 
         filterChain.doFilter(request, response);
