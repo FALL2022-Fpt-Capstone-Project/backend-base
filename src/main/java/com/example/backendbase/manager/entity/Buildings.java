@@ -28,6 +28,9 @@ public class Buildings {
     @JsonProperty("building_total_rooms")
     private int totalRooms;
 
+    @Column(name = "building_total_floor")
+    private int totalFloors;
+
     @JoinColumn(name = "address_id")
     @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("address_id")

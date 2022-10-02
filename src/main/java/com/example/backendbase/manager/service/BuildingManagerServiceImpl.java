@@ -13,22 +13,23 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BuildingManagerServiceImpl implements IBuildingManager{
+public class BuildingManagerServiceImpl implements IBuildingManager {
 
     private final BuildingRepo buildingRepo;
 
     @Override
-    public Buildings addNewBuilding(AddBuildingRequest request){
+    public Buildings addNewBuilding(AddBuildingRequest request) {
         return buildingRepo.save(Buildings.builder()
                 .buildingName(request.getBuildingName())
                 .totalRooms(request.getTotalRoom())
+                .totalFloors(request.getTotalFloor())
                 .address(Address.builder().city(request.getCity())
-                                .district(request.getDistrict())
-                                .wards(request.getWards())
-                                .moreDetails(request.getMoreAddressDetail())
-                                .createdBy(CurrentUserUtils.getCurrentUser())
-                                .updatedTime(TimeUtils.getCurrentTime())
-                                .build())
+                        .district(request.getDistrict())
+                        .wards(request.getWards())
+                        .moreDetails(request.getMoreAddressDetail())
+                        .createdBy(CurrentUserUtils.getCurrentUser())
+                        .updatedTime(TimeUtils.getCurrentTime())
+                        .build())
                 .createdBy(CurrentUserUtils.getCurrentUser())
                 .updatedTime(TimeUtils.getCurrentTime())
                 .build());
