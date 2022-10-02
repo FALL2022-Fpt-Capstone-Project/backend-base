@@ -5,13 +5,11 @@ import com.example.backendbase.manager.entity.Address;
 import com.example.backendbase.manager.entity.Buildings;
 import com.example.backendbase.manager.entity.request.AddBuildingRequest;
 import com.example.backendbase.manager.entity.request.UpdateBuildingRequest;
-import com.example.backendbase.manager.repo.AddressRepo;
 import com.example.backendbase.manager.repo.BuildingRepo;
 import com.example.backendbase.user.util.CurrentUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -20,9 +18,6 @@ public class BuildingManagerServiceImpl implements IBuildingManager{
 
     private final BuildingRepo buildingRepo;
 
-    private final AddressRepo addressRepo;
-
-    public Buildings addNewBuilding(AddBuildingRequest request) {
     @Override
     public Buildings addNewBuilding(AddBuildingRequest request){
         return buildingRepo.save(Buildings.builder()
@@ -63,8 +58,11 @@ public class BuildingManagerServiceImpl implements IBuildingManager{
         return "update successfully";
     }
 
+    @Override
     public Buildings getBuilding(Long buildingId) {
         return buildingRepo.findById(buildingId).orElseThrow(() -> new RuntimeException("Error: Buildings is not found."));
+    }
+    
     @Override
     public List<Buildings> getAllBuilding() {
         return buildingRepo.getAllBuilding();
