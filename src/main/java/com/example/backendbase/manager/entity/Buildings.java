@@ -29,6 +29,7 @@ public class Buildings {
     private int totalRooms;
 
     @Column(name = "building_total_floor")
+    @JsonProperty("building_total_floor")
     private int totalFloors;
 
     @JoinColumn(name = "address_id")
