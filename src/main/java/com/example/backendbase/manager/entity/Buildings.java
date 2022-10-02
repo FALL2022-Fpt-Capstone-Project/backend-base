@@ -26,12 +26,11 @@ public class Buildings {
 
     @Column(name = "building_total_rooms")
     @JsonProperty("building_total_rooms")
-    private int totalRooms;
+    private Integer totalRooms;
 
     @Column(name = "building_total_floor")
     @JsonProperty("building_total_floor")
-    private int totalFloors;
-
+    private Integer totalFloors;
     @JoinColumn(name = "address_id")
     @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("address_id")
