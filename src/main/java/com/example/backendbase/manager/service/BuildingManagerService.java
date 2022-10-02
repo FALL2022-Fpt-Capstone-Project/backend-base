@@ -43,9 +43,15 @@ public class BuildingManagerService {
         building.setBuildingName(request.getBuildingName());
         building.setTotalRooms(request.getTotalRoom());
 
-        //get address
-        Address address = addressRepo.findById(request.getAddressId()).orElseThrow(() -> new RuntimeException("Error: Address is not found."));
-        building.setAddress(address);
+        //set address
+        building.getAddress().setCity(request.getCity());
+        building.getAddress().setDistrict(request.getDistrict());
+        building.getAddress().setWards(request.getWards());
+        building.getAddress().setMoreDetails(request.getMoreAddressDetail());
+        building.getAddress().setCreatedBy(CurrentUserUtils.getCurrentUser());
+        building.getAddress().setUpdatedTime(TimeUtils.getCurrentTime());
+
+
         building.setCreatedBy(CurrentUserUtils.getCurrentUser());
         building.setUpdatedTime(TimeUtils.getCurrentTime());
 
