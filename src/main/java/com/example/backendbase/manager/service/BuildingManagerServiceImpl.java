@@ -5,11 +5,14 @@ import com.example.backendbase.manager.entity.Address;
 import com.example.backendbase.manager.entity.Buildings;
 import com.example.backendbase.manager.entity.request.AddBuildingRequest;
 import com.example.backendbase.manager.entity.request.UpdateBuildingRequest;
+import com.example.backendbase.manager.entity.response.ListAllBuildingResponse;
 import com.example.backendbase.manager.repo.BuildingRepo;
 import com.example.backendbase.user.util.CurrentUserUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,9 +65,26 @@ public class BuildingManagerServiceImpl implements IBuildingManager {
     public Buildings getBuilding(Long buildingId) {
         return buildingRepo.findById(buildingId).orElseThrow(() -> new RuntimeException("Error: Buildings is not found."));
     }
-    
+
     @Override
-    public List<Buildings> getAllBuilding() {
-        return buildingRepo.getAllBuilding();
+    public List<ListAllBuildingResponse> getAllBuilding() {
+        var listBuilding = buildingRepo.getAllBuilding();
+        List<ListAllBuildingResponse> listAllBuildingResponses = new ArrayList<>();
+        listBuilding.forEach(
+                e -> {
+                    listAllBuildingResponses.add(ListAllBuildingResponse.builder()
+                            .id(e.getId())
+                            .buildingName(e.getBuildingName())
+                            .totalRooms(e.getTotalRooms())
+                            .totalFloors(e.getTotalFloors())
+                            .city(e.getAddress().getCity())
+                            .wards(e.getAddress().getWards())
+                            .district(e.getAddress().getDistrict())
+                            .createdBy(e.getCreatedBy())
+                            .updatedTime(e.getUpdatedTime())
+                            .build());
+                }
+        );
+        return listAllBuildingResponses;
     }
 }
