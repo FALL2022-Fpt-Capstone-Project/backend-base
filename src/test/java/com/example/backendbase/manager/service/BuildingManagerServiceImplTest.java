@@ -22,7 +22,7 @@ class BuildingManagerServiceImplTest {
     //getBuilding
     //quy tắc đặt tên
     @Test
-    void Given_ExactValueAndPageNumber_When_getBuilding_Then_SuccessResultsInDatabase() {
+    void Given_ExactValueIdBuilding_When_getBuilding_Then_SuccessResultsInDatabase() {
         //bản chất của unit test là test funtion và test độ bao phủ
         Buildings building = buildingManagerServiceImpl.getBuilding(2L);
 
@@ -36,7 +36,7 @@ class BuildingManagerServiceImplTest {
     }
 
     @Test
-    void Given_WrongValueAndPageNumber_When_getBuilding_Then_ThrowException() {
+    void Given_WrongValueIdBuilding_When_getBuilding_Then_ThrowException() {
         Exception exception = assertThrows(RuntimeException.class, () -> {
             buildingManagerServiceImpl.getBuilding(0L);
         });
@@ -46,7 +46,7 @@ class BuildingManagerServiceImplTest {
     }
 
     @Test
-    void Given_NullValueAndPageNumber_When_getBuilding_Then_ThrowException() {
+    void Given_NullValueIdBuilding_When_getBuilding_Then_ThrowException() {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             buildingManagerServiceImpl.getBuilding(null);
         });
@@ -59,7 +59,7 @@ class BuildingManagerServiceImplTest {
     //UpdateBuilding
 
     @Test
-    void Given_ExactValueUpdateBuilding_When_update_Then_SuccessResultsInDatabase() {
+    void Given_ExactValueValueIdBuilding_When_update_Then_SuccessResultsInDatabase() {
 
         //mock user
         try (MockedStatic<CurrentUserUtils> utilities = Mockito.mockStatic(CurrentUserUtils.class)) {
@@ -101,7 +101,7 @@ class BuildingManagerServiceImplTest {
     }
 
     @Test
-    void Given_WrongValueUpdateBuilding_When_update_Then_ThrowException() {
+    void Given_WrongValueValueIdBuilding_When_update_Then_ThrowException() {
 
         //mock user
         try (MockedStatic<CurrentUserUtils> utilities = Mockito.mockStatic(CurrentUserUtils.class)) {
@@ -131,7 +131,7 @@ class BuildingManagerServiceImplTest {
     }
 
     @Test
-    void Given_NullValueUpdateBuilding_When_update_Then_ThrowException() {
+    void Given_NullValueValueIdBuilding_When_update_Then_ThrowException() {
 
         //mock user
         try (MockedStatic<CurrentUserUtils> utilities = Mockito.mockStatic(CurrentUserUtils.class)) {
