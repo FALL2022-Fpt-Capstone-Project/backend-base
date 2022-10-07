@@ -31,6 +31,7 @@ public class Buildings {
     @Column(name = "building_total_floor")
     @JsonProperty("building_total_floor")
     private Integer totalFloors;
+
     @JoinColumn(name = "address_id")
     @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("address_id")

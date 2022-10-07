@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class BuildingManagerServiceImpl implements IBuildingManager {
     }
 
 
+
+    @Transactional
     public String updateBuilding(UpdateBuildingRequest request) {
         Buildings building = buildingRepo.findById(request.getBuildingId()).orElseThrow(() -> new RuntimeException("Error: Buildings is not found."));
         building.setBuildingName(request.getBuildingName());

@@ -1,13 +1,12 @@
 package com.example.backendbase.manager.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UpdateBuildingRequest {
 
     @JsonProperty("building_id")
