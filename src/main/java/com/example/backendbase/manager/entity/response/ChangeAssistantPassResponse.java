@@ -1,4 +1,4 @@
-package com.example.backendbase.user.entity.response;
+package com.example.backendbase.manager.entity.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

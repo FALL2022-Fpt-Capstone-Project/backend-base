@@ -4,6 +4,7 @@ import com.example.backendbase.manager.entity.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -60,11 +61,13 @@ public class User {
     @JsonProperty("created_date")
     private Timestamp createdDate;
 
-    @Column(name = "is_owner", columnDefinition = "BOOL SET DEFAULT FALSE")
+    @Column(name = "is_owner", columnDefinition = "BOOL")
+    @ColumnDefault("FALSE")
     @JsonProperty("is_owner")
     private Boolean isOwner;
 
-    @Column(name = "is_deactive", columnDefinition = "BOOL SET DEFAULT FALSE")
+    @Column(name = "is_deactive", columnDefinition = "BOOL")
+    @ColumnDefault("FALSE")
     @JsonProperty("is_deactive")
     private Boolean isDeactive;
 

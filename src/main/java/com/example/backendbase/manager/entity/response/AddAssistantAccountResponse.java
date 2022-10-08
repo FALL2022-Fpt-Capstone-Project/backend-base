@@ -1,4 +1,4 @@
-package com.example.backendbase.user.entity.response;
+package com.example.backendbase.manager.entity.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,14 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.util.Set;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ListAssistantAccountResponse {
+public class AddAssistantAccountResponse {
     private Long id;
 
     @JsonProperty("user_name")
@@ -27,17 +27,6 @@ public class ListAssistantAccountResponse {
 
     private Set<String> role;
 
-    @Column(name = "full_name")
-    @JsonProperty("full_name")
-    private String fullName;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "phone_number")
-    @JsonProperty("phone_number")
-    private String phoneNumber;
-
     @JsonProperty("address_city")
     private String city;
 
@@ -47,7 +36,7 @@ public class ListAssistantAccountResponse {
     @JsonProperty("address_wards")
     private String wards;
 
-    @Column(name = "address_more_detail")
     @JsonProperty("address_more_detail")
     private String moreDetails;
+
 }

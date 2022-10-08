@@ -1,4 +1,4 @@
-package com.example.backendbase.user.entity.request;
+package com.example.backendbase.manager.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

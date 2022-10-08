@@ -1,5 +1,6 @@
 package com.example.backendbase.security.configurations;
 
+import com.example.backendbase.common.logging.RequestAndResponseLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthTokenFilter();
     }
 
+    @Bean
+    public RequestAndResponseLoggingFilter requestAndResponseLoggingFilter(){
+        return new RequestAndResponseLoggingFilter();
+    }
+
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -62,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(requestAndResponseLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 //    @Configuration
 //    @EnableWebMvc
