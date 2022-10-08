@@ -1,5 +1,5 @@
 
-package com.example.backendbase.user.entity;
+package com.example.backendbase.user.entity.response;
 
 import lombok.*;
 
