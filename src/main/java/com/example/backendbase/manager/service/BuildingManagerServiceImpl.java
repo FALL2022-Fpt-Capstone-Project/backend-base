@@ -82,7 +82,6 @@ public class BuildingManagerServiceImpl implements IBuildingManager {
                             .district(e.getAddress().getDistrict())
                             .createdBy(e.getCreatedBy())
                             .updatedTime(e.getUpdatedTime())
-                            .moreDetails(e.getAddress().getMoreDetails())
                             .build());
                 }
         );
