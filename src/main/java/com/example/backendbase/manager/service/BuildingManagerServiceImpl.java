@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BuildingManagerServiceImpl implements IBuildingManager {
+public class BuildingManagerServiceImpl implements BuildingManagerService {
 
     private final BuildingRepo buildingRepo;
 

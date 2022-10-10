@@ -7,7 +7,7 @@ import com.example.backendbase.manager.entity.response.ListAllBuildingResponse;
 
 import java.util.List;
 
-public interface IBuildingManager {
+public interface BuildingManagerService {
 
     Buildings addNewBuilding(AddBuildingRequest request);
 

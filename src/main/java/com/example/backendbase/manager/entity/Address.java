@@ -38,6 +38,14 @@ public class Address {
     @JsonProperty("address_more_detail")
     private String moreDetails;
 
+    @Column(name = "updated_time")
+    @JsonProperty("updated_time")
+    private Timestamp updatedTime;
+
+    @Column(name = "created_by")
+    @JsonProperty("created_by")
+    private String createdBy;
+
     @OneToOne(mappedBy = "address")
     @JsonIgnore
     private Buildings buildings;
@@ -46,12 +54,8 @@ public class Address {
     @JsonIgnore
     private User user;
 
-    @Column(name = "updated_time")
-    @JsonProperty("updated_time")
-    private Timestamp updatedTime;
-
-    @Column(name = "created_by")
-    @JsonProperty("created_by")
-    private String createdBy;
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private Renters renters;
 }
 

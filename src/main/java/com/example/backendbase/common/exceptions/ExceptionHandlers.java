@@ -2,6 +2,7 @@ package com.example.backendbase.common.exceptions;
 
 import com.example.backendbase.common.entity.response.Response;
 import com.example.backendbase.common.entity.response.ResponseStatus;
+import com.example.backendbase.manager.exception.ManagerException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,17 @@ public class ExceptionHandlers {
                 .code(HttpStatus.UNAUTHORIZED.value())
                 .message(e.getMessage())
                 .build(), null);
+    }
+
+    @ExceptionHandler(ManagerException.class)
+    @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response handleBusinessException(ManagerException e) {
+        var responseStatus = ResponseStatus.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(e.getMessage())
+                .build();
+        e.printStackTrace();
+        return new Response(responseStatus, null);
     }
 
 

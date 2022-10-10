@@ -2,7 +2,7 @@ package com.example.backendbase.manager.controller;
 
 import com.example.backendbase.common.utils.ResponseUtils;
 
-import com.example.backendbase.manager.service.IAssistantAccountManager;
+import com.example.backendbase.manager.service.AssistantAccountManagerService;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
 import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserManagerController {
 
     @Autowired
-    private IAssistantAccountManager assistantAccManager;
+    private AssistantAccountManagerService assistantAccManager;
 
     @GetMapping("/list-assistant-account")
     public ResponseEntity<Object> getListAccount() {

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AssistantAccountManagerImpl implements IAssistantAccountManager {
+public class AssistantAccountManagerServiceImpl implements AssistantAccountManagerService {
 
     private final UserRepo userRepository;
 

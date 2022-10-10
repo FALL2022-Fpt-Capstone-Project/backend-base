@@ -11,7 +11,7 @@ import com.example.backendbase.manager.entity.response.ListAssistantAccountRespo
 
 import java.util.List;
 
-public interface IAssistantAccountManager {
+public interface AssistantAccountManagerService {
 
     User updateAccount(ModifyAssistantAccountRequest changeRequest);
 
