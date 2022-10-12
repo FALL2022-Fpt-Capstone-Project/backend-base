@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BuildingManagerServiceImplTest {
 
     @Autowired
-    IBuildingManager buildingManagerServiceImpl;
+    BuildingManagerService buildingManagerServiceImpl;
 
     //getBuilding
     //quy tắc đặt tên
