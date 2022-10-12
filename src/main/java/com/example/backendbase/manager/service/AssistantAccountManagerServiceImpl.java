@@ -1,46 +1,31 @@
-package com.example.backendbase.user.services;
+package com.example.backendbase.manager.service;
 
-import com.example.backendbase.common.utils.TimeUtils;
-import com.example.backendbase.manager.entity.Address;
-import com.example.backendbase.security.service.UserAuthenDetailsImpl;
-import com.example.backendbase.manager.entity.request.ChangePassRequest;
-import com.example.backendbase.manager.entity.response.AddAssistantAccountResponse;
-import com.example.backendbase.manager.entity.response.ChangeAssistantPassResponse;
-import com.example.backendbase.manager.entity.response.ListAssistantAccountResponse;
-import com.example.backendbase.user.entity.request.LoginResponse;
-import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
-import com.example.backendbase.user.repo.RoleRepo;
-import com.example.backendbase.user.repo.UserRepo;
 import com.example.backendbase.security.enums.ERole;
 import com.example.backendbase.security.util.JwtUtils;
 import com.example.backendbase.user.entity.Role;
 import com.example.backendbase.user.entity.User;
-import com.example.backendbase.user.entity.request.LoginRequest;
+import com.example.backendbase.manager.entity.request.ChangePassRequest;
+import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
-import com.example.backendbase.user.util.CurrentUserUtils;
+import com.example.backendbase.manager.entity.response.AddAssistantAccountResponse;
+import com.example.backendbase.manager.entity.response.ChangeAssistantPassResponse;
+import com.example.backendbase.manager.entity.response.ListAssistantAccountResponse;
+import com.example.backendbase.user.repo.RoleRepo;
+import com.example.backendbase.user.repo.UserRepo;
+import com.example.backendbase.user.services.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.var;
-import org.springframework.security.authentication.AccountStatusException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserService {
-
-    private final AuthenticationManager authenticationManager;
+public class AssistantAccountManagerServiceImpl implements AssistantAccountManagerService {
 
     private final UserRepo userRepository;
 
@@ -50,61 +35,8 @@ public class UserServiceImpl implements IUserService {
 
     private final JwtUtils jwtUtils;
 
+    private final IUserService userService;
 
-    @Override
-    public LoginResponse signin(LoginRequest loginRequest) {
-        jwtUtils.getCleanJwtCookie();
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
-        var user = (UserAuthenDetailsImpl) authentication.getPrincipal();
-        if (userRepository.findById(user.getId()).get().getIsDeactive()) {
-            throw new AccountStatusException("This account was deactivate") {
-            };
-        }
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserAuthenDetailsImpl userDetails = (UserAuthenDetailsImpl) authentication.getPrincipal();
-
-        return LoginResponse.builder()
-                .token(jwtUtils.generateJwtCookie(userDetails).getValue())
-                .role(authentication.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
-                .build();
-    }
-
-    @Override
-    @SneakyThrows
-    public User singup(RegisterRequest signUpRequest) {
-        if (userRepository.findByUsername(signUpRequest.getUserName()).isPresent()) {
-            throw new Exception("Error: Username existed!!");
-        }
-
-        // Create new user's account
-        User user = User.builder().
-                username(signUpRequest.getUserName()).
-                ePassword(encoder.encode(signUpRequest.getPassword())).
-                fullName(signUpRequest.getFullName()).
-                gender(signUpRequest.getGender()).
-                phoneNumber(signUpRequest.getPhoneNumber()).
-                createdDate(new Timestamp(System.currentTimeMillis())).
-                address(Address.builder().
-                        city(signUpRequest.getCity()).
-                        district(signUpRequest.getDistrict()).
-                        wards(signUpRequest.getDistrict()).
-                        moreDetails(signUpRequest.getMoreDetails()).
-                        createdBy(CurrentUserUtils.getCurrentUser()).
-                        updatedTime(TimeUtils.getCurrentTime()).
-                        build()).
-                build();
-        user.setRoles(roleChecker(signUpRequest.getRoles()));
-        userRepository.save(user);
-
-        return user;
-    }
-
-    public String logout() {
-        jwtUtils.getCleanJwtCookie();
-        return "You've been signed out!";
-    }
 
     @Override
     @SneakyThrows
@@ -206,7 +138,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public AddAssistantAccountResponse addNewAssistantAccount(RegisterRequest registerRequest) {
-        var user = singup(registerRequest);
+        var user = userService.singup(registerRequest);
 
         return AddAssistantAccountResponse.builder().
                 id(user.getId()).

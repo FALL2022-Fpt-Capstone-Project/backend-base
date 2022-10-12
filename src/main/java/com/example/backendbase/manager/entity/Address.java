@@ -1,5 +1,6 @@
 package com.example.backendbase.manager.entity;
 
+import com.example.backendbase.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -37,10 +38,6 @@ public class Address {
     @JsonProperty("address_more_detail")
     private String moreDetails;
 
-    @OneToOne(mappedBy = "address")
-    @JsonIgnore
-    private Buildings buildings;
-
     @Column(name = "updated_time")
     @JsonProperty("updated_time")
     private Timestamp updatedTime;
@@ -48,5 +45,17 @@ public class Address {
     @Column(name = "created_by")
     @JsonProperty("created_by")
     private String createdBy;
+
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private Buildings buildings;
+
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private User user;
+
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    private Renters renters;
 }
 

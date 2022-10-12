@@ -1,6 +1,5 @@
 package com.example.backendbase.user.entity.request;
 
-import com.example.backendbase.security.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +14,28 @@ public class RegisterRequest {
 
     private String password;
 
-    @JsonProperty("user_infor_id")
-    private int userInforId;
-
-    @JsonProperty("identity_id")
-    private int identityId;
-
     private Set<String> roles;
+
+    @JsonProperty("full_name")
+    private String fullName;
+
+    @JsonProperty("phone_number")
+    private String phoneNumber;
+
+    private String gender;
+
+    @JsonProperty("address_city")
+    private String city;
+
+    @JsonProperty("address_district")
+    private String district;
+
+    @JsonProperty("address_wards")
+    private String wards;
+
+    @JsonProperty("address_more_detail")
+    private String moreDetails;
+
+
 
 }

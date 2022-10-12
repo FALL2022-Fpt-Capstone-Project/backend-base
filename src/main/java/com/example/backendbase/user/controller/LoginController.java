@@ -1,7 +1,6 @@
 package com.example.backendbase.user.controller;
 
 import com.example.backendbase.common.utils.ResponseUtils;
-import com.example.backendbase.user.entity.User;
 import com.example.backendbase.user.entity.request.LoginRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
 import com.example.backendbase.user.services.IUserService;
@@ -30,7 +29,7 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Object> logout(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<Object> logout(){
         return ResponseUtils.httpResponse(userService.logout());
     }
 }
