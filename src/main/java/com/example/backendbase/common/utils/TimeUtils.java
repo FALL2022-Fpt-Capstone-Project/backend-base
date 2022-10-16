@@ -1,17 +1,15 @@
 package com.example.backendbase.common.utils;
 
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+@UtilityClass
 public class TimeUtils {
-
-    private TimeUtils() {
-        throw new IllegalStateException("Utility class");
-    }
 
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

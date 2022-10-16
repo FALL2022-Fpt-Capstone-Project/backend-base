@@ -1,7 +1,7 @@
 package com.example.backendbase.manager.service;
 
 import com.example.backendbase.common.utils.TimeUtils;
-import com.example.backendbase.manager.ManagerConstant;
+import com.example.backendbase.manager.constant.ManagerConstant;
 import com.example.backendbase.manager.entity.Contracts;
 import com.example.backendbase.manager.entity.request.AddContractRequest;
 import com.example.backendbase.manager.entity.response.ContractResponse;
@@ -9,7 +9,6 @@ import com.example.backendbase.manager.exception.ManagerException;
 import com.example.backendbase.manager.repo.ContractRepo;
 import com.example.backendbase.manager.repo.native_repo.ContractNativeRepo;
 import com.example.backendbase.manager.repo.RenterRepo;
-import com.twilio.rest.numbers.v2.regulatorycompliance.bundle.EvaluationReader;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.stereotype.Service;

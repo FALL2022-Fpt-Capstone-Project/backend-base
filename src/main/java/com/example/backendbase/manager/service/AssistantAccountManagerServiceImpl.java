@@ -1,5 +1,7 @@
 package com.example.backendbase.manager.service;
 
+import com.example.backendbase.common.utils.ParseUtils;
+import com.example.backendbase.manager.constant.ManagerConstant;
 import com.example.backendbase.security.enums.ERole;
 import com.example.backendbase.security.util.JwtUtils;
 import com.example.backendbase.user.entity.Role;
@@ -33,10 +35,7 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
 
     private final PasswordEncoder encoder;
 
-    private final JwtUtils jwtUtils;
-
     private final IUserService userService;
-
 
     @Override
     @SneakyThrows
@@ -64,11 +63,6 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
 
     }
 
-    @Override
-    public List<ListAssistantAccountResponse> getListUserByRole(ERole role) {
-        return null;
-    }
-
 //    @Override
 //    public List<ListAssistantAccountResponse> getListUserByRoleDeactive(ERole role, boolean isDeactive) {
 ////        return userRepository.findAllByRoles_NameAAndIsOwner(role, isDeactive);
@@ -77,8 +71,40 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
 //    }
 
     @Override
-    public List<ListAssistantAccountResponse> getListAssistantAccount() {
-        var listAssistantAccount = userRepository.findAllByIsOwner(false);
+    public List<ListAssistantAccountResponse> getListAssistantAccount(String condition, String roles, int deactivate) {
+        List<ERole> listRole = new ArrayList<>();
+
+        if (roles.equals("all")) {
+            listRole = Arrays.stream(ERole.class.getEnumConstants()).collect(Collectors.toList());
+        } else {
+            if (roles.equals("admin")) {
+                listRole.add(ERole.ROLE_ADMIN);
+            }
+            if (roles.equals("staff")) {
+                listRole.add(ERole.ROLE_STAFF);
+            }
+        }
+
+        //activate == 1 => true
+        boolean isDeactivate = true;
+        if (deactivate == ManagerConstant.ACTIVATE_ACCOUNT)
+            isDeactivate = false;
+
+        switch (condition) {
+            case "latest":
+                return buildListAssistantAccountByFilter(
+                        userRepository.findAllByIsOwnerAndRoles_NameInAndIsDeactiveOrderByCreatedDateDesc(false, listRole, isDeactivate));
+            case "oldest":
+                return buildListAssistantAccountByFilter(
+                        userRepository.findAllByIsOwnerAndRoles_NameInAndIsDeactiveOrderByCreatedDateAsc(false, listRole, isDeactivate));
+            case "all":
+                return buildListAssistantAccountByFilter(
+                        userRepository.findAllByIsOwnerAndRoles_NameInAndIsDeactive(false, listRole, isDeactivate));
+        }
+        return buildListAssistantAccountByFilter(userRepository.findAllByIsOwner(false));
+    }
+
+    public List<ListAssistantAccountResponse> buildListAssistantAccountByFilter(List<User> listAssistantAccount) {
         List<ListAssistantAccountResponse> response = new ArrayList<>();
         listAssistantAccount.forEach(user -> {
             response.add(ListAssistantAccountResponse.builder().
@@ -93,6 +119,7 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
                     district(user.getAddress().getDistrict()).
                     wards(user.getAddress().getWards()).
                     moreDetails(user.getAddress().getMoreDetails()).
+                    permission(ParseUtils.parseStringArrayToIntArray(user.getPermission())).
                     build());
         });
         return response;
@@ -163,7 +190,7 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
 
                     break;
                 default:
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    Role userRole = roleRepository.findByName(ERole.ROLE_STAFF)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                     roles.add(userRole);
             }

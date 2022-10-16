@@ -25,11 +25,14 @@ public class ContractNativeRepo {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private RenterRepo renterRepo;
+    private final RenterRepo renterRepo;
 
-    @Autowired
-    private ContractRepo contractRepo;
+    private final ContractRepo contractRepo;
+
+    public ContractNativeRepo(RenterRepo renterRepo, ContractRepo contractRepo) {
+        this.renterRepo = renterRepo;
+        this.contractRepo = contractRepo;
+    }
 
     @Transactional
     public Contracts addNewContract(AddContractRequest request) throws ManagerException {

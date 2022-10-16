@@ -11,16 +11,21 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
+    List<User> findAllByIsDeactiveAndRoles_NameIn(boolean isDeactive, List<ERole> roles);
 
-    Boolean existsByUsername(String username);
+    List<User> findAllByIsOwnerAndRoles_NameInAndIsDeactive(boolean isOwner, List<ERole> roles, boolean isActivate);
 
-//    List<User> findAllByRoles_NameAAndIsOwner(ERole role, boolean isOwner);
-//
-//    List<User> findAllByRoles_NameAAndIsDeactive(ERole role, boolean isDeactive);
+    List<User> findAllByIsOwnerAndRoles_NameInAndIsDeactiveOrderByCreatedDateDesc(boolean isOwner, List<ERole> roles, boolean isActivate);
 
+    List<User> findAllByIsOwnerAndRoles_NameInAndIsDeactiveOrderByCreatedDateAsc(boolean isOwner, List<ERole> roles, boolean isActivate);
+
+    List<User> findAllByIsOwnerAndFullNameContaining(boolean isOwner, String nameToSearch);
+
+    List<User> findAllByIsOwnerAndGenderIs(boolean isOwner, String genderToSearch);
     List<User> findAllByIsOwner(boolean isOwner);
 
     User deleteUserByUsername(String username);
+
 
 
 }

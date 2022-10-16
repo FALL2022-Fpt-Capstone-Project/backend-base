@@ -8,19 +8,24 @@ import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequ
 import com.example.backendbase.user.entity.request.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/api/manager/user")
 @RestController
+@PreAuthorize("hasRole('ADMIN')")
 public class UserManagerController {
 
     @Autowired
     private AssistantAccountManagerService assistantAccManager;
 
     @GetMapping("/list-assistant-account")
-    public ResponseEntity<Object> getListAccount() {
-        return ResponseUtils.httpResponse(assistantAccManager.getListAssistantAccount());
+    public ResponseEntity<Object> getListAccount(@RequestParam(name = "order", required = false, defaultValue = "all") String order,
+                                                 @RequestParam(name = "role", required = false, defaultValue = "all") String roles,
+                                                 @RequestParam(name = "permission", required = false, defaultValue = "1,2,3,4") String permission,
+                                                 @RequestParam(name = "deactivate", required = false, defaultValue = "0") String deactivate) {
+        return ResponseUtils.httpResponse(assistantAccManager.getListAssistantAccount(order, roles, Integer.parseInt(deactivate)));
     }
 
     @PostMapping("/add-assistant-account")

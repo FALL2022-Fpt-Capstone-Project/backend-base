@@ -15,9 +15,7 @@ public interface AssistantAccountManagerService {
 
     User updateAccount(ModifyAssistantAccountRequest changeRequest);
 
-    List<ListAssistantAccountResponse> getListUserByRole(ERole role);
-
-    List<ListAssistantAccountResponse> getListAssistantAccount();
+    List<ListAssistantAccountResponse> getListAssistantAccount(String condition, String roles, int filter);
 
     String deactiveAssistantAccount(Object value);
 

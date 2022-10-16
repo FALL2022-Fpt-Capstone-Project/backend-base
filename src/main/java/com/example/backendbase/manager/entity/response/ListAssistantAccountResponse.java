@@ -47,4 +47,7 @@ public class ListAssistantAccountResponse {
     
     @JsonProperty("address_more_detail")
     private String moreDetails;
+
+    @JsonProperty("permission")
+    private int[] permission;
 }

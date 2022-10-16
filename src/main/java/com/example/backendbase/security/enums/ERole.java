@@ -1,7 +1,6 @@
 package com.example.backendbase.security.enums;
 
 public enum ERole {
-    ROLE_USER,
-    ROLE_MODERATOR,
+    ROLE_STAFF,
     ROLE_ADMIN
 }

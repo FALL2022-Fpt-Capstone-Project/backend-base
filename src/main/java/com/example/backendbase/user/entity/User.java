@@ -42,10 +42,6 @@ public class User {
     @JsonIgnore
     private String ePassword;
 
-    @Column(name = "identity_id")
-    @JsonIgnore
-    private int identityId;
-
     @Column(name = "full_name")
     @JsonProperty("full_name")
     private String fullName;
@@ -70,6 +66,10 @@ public class User {
     @ColumnDefault("FALSE")
     @JsonProperty("is_deactive")
     private Boolean isDeactive;
+
+    @Column(name = "permission")
+    @JsonProperty("permission")
+    private String permission;
 
     @JoinTable(name = "tb.user_role",
             joinColumns = @JoinColumn(name = "user_id"),

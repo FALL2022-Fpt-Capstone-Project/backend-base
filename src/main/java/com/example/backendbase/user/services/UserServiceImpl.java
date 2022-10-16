@@ -231,11 +231,15 @@ public class UserServiceImpl implements IUserService {
 
                     break;
                 default:
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    Role userRole = roleRepository.findByName(ERole.ROLE_STAFF)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                     roles.add(userRole);
             }
         });
         return roles;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(TimeUtils.getCurrentTime());
     }
 }
