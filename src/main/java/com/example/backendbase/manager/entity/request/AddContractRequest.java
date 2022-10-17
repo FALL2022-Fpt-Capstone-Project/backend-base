@@ -1,5 +1,6 @@
 package com.example.backendbase.manager.entity.request;
 
+import com.example.backendbase.manager.entity.BasicAssets;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -71,4 +72,11 @@ public class AddContractRequest {
     @JsonProperty("group_id")
     private Long groupId;
     //--------------------------
+
+    @JsonProperty("list_assets")
+    private List<BasicAssets> basicAssets;
+
+    public class HandOverAssetsRequest{
+
+    }
 }

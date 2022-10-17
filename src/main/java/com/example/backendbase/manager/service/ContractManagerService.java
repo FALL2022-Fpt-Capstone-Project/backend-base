@@ -14,7 +14,7 @@ public interface ContractManagerService {
 
     String disableContract(Long id);
 
-    List<Contracts> getAllContractWithFilter(String condition, Integer groupId);
+    List<Contracts> getAllContractWithFilter(String condition, Integer buldingId);
 
     ContractResponse getContractById(Long id);
 

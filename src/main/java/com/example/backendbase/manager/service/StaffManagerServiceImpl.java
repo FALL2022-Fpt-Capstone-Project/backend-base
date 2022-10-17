@@ -3,7 +3,6 @@ package com.example.backendbase.manager.service;
 import com.example.backendbase.common.utils.ParseUtils;
 import com.example.backendbase.manager.constant.ManagerConstant;
 import com.example.backendbase.security.enums.ERole;
-import com.example.backendbase.security.util.JwtUtils;
 import com.example.backendbase.user.entity.Role;
 import com.example.backendbase.user.entity.User;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AssistantAccountManagerServiceImpl implements AssistantAccountManagerService {
+public class StaffManagerServiceImpl implements StaffManagerService {
 
     private final UserRepo userRepository;
 
@@ -39,16 +38,12 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
 
     @Override
     @SneakyThrows
-    public User updateAccount(ModifyAssistantAccountRequest changeRequest) {
+    public User updateAccount(ModifyAssistantAccountRequest changeRequest, Long staffId) {
         Optional<User> userToUpdateRole;
-        if (changeRequest.getId() == null) {
-            userToUpdateRole = userRepository.findByUsername(changeRequest.getUserName());
-            if (!userToUpdateRole.isPresent()) throw new UsernameNotFoundException("Username Not Found!!");
-        } else {
-            changeRequest.setId(changeRequest.getId());
-            userToUpdateRole = userRepository.findById(changeRequest.getId());
-            if (!userToUpdateRole.isPresent()) throw new UsernameNotFoundException("AccountId Not Found!!");
-        }
+
+        userToUpdateRole = userRepository.findById(staffId);
+        if (!userToUpdateRole.isPresent()) throw new UsernameNotFoundException("AccountId Not Found!!");
+
 
         userToUpdateRole.get().setUsername(changeRequest.getUserName());
         userToUpdateRole.get().setGender(changeRequest.getGender());
@@ -57,18 +52,10 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
         userToUpdateRole.get().getAddress().setMoreDetails(changeRequest.getMoreDetails());
         if (!Objects.isNull(changeRequest.getRole())) {
             userToUpdateRole.get().setRoles(roleChecker(changeRequest.getRole()));
-
         }
         return userRepository.save(userToUpdateRole.get());
 
     }
-
-//    @Override
-//    public List<ListAssistantAccountResponse> getListUserByRoleDeactive(ERole role, boolean isDeactive) {
-////        return userRepository.findAllByRoles_NameAAndIsOwner(role, isDeactive);
-//        // TO-DO :
-//        return null;
-//    }
 
     @Override
     public List<ListAssistantAccountResponse> getListAssistantAccount(String condition, String roles, int deactivate) {
@@ -120,6 +107,7 @@ public class AssistantAccountManagerServiceImpl implements AssistantAccountManag
                     wards(user.getAddress().getWards()).
                     moreDetails(user.getAddress().getMoreDetails()).
                     permission(ParseUtils.parseStringArrayToIntArray(user.getPermission())).
+                    isDeactivate(user.getIsDeactive()).
                     build());
         });
         return response;

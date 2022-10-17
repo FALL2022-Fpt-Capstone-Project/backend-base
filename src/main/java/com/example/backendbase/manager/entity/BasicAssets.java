@@ -2,6 +2,7 @@ package com.example.backendbase.manager.entity;
 
 import com.example.backendbase.common.utils.TimeUtils;
 import com.example.backendbase.user.util.CurrentUserUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -28,9 +29,11 @@ public class BasicAssets {
     String name;
 
     @Column(name = "created_by")
+    @JsonIgnore
     private String createdBy = CurrentUserUtils.getCurrentUser();
 
     @Column(name = "updated_time")
+    @JsonIgnore
     private Timestamp updatedTime = TimeUtils.getCurrentTime();
 
 }

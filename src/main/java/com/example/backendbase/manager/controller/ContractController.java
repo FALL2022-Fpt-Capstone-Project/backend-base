@@ -19,9 +19,9 @@ public class ContractController {
         return ResponseUtils.httpResponse(contractManagerService.addNewContract(request));
     }
 
-    @GetMapping("/get-contract/{groupId}")
+    @GetMapping("/get-contract/{buldingId}")
     public ResponseEntity<Object> getContract(@RequestParam(name = "filter", required = false) String filter,
-                                              @PathVariable Integer groupId){
-        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, groupId));
+                                              @PathVariable Integer buldingId){
+        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, buldingId));
     }
 }

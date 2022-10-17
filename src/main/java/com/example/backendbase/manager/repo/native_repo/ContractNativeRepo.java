@@ -1,10 +1,7 @@
 package com.example.backendbase.manager.repo.native_repo;
 
 import com.example.backendbase.common.utils.TimeUtils;
-import com.example.backendbase.manager.entity.Address;
-import com.example.backendbase.manager.entity.Contracts;
-import com.example.backendbase.manager.entity.Identity;
-import com.example.backendbase.manager.entity.Renters;
+import com.example.backendbase.manager.entity.*;
 import com.example.backendbase.manager.entity.request.AddContractRequest;
 import com.example.backendbase.manager.exception.ManagerException;
 import com.example.backendbase.manager.repo.ContractRepo;
@@ -17,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -70,7 +69,15 @@ public class ContractNativeRepo {
             contract.setRoom(request.getRoomId());
             contract.setRenters(newRenterId);
             entityManager.persist(contract);
+            entityManager.flush();
         }
+//        List<HandOverAssets> listAssetsToAdd = new ArrayList<>();
+//        request.getBasicAssets().forEach(basicAssets -> {
+//            listAssetsToAdd.add(HandOverAssets.builder().
+//                    assetId(basicAssets.getId()).
+//                    contractId(contract.getId())
+//                    .build())
+//        });
         return contract;
 
     }

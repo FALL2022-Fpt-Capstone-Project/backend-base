@@ -1,6 +1,5 @@
 package com.example.backendbase.manager.service;
 
-import com.example.backendbase.security.enums.ERole;
 import com.example.backendbase.user.entity.User;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
 import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
@@ -11,9 +10,9 @@ import com.example.backendbase.manager.entity.response.ListAssistantAccountRespo
 
 import java.util.List;
 
-public interface AssistantAccountManagerService {
+public interface StaffManagerService {
 
-    User updateAccount(ModifyAssistantAccountRequest changeRequest);
+    User updateAccount(ModifyAssistantAccountRequest changeRequest, Long staffId);
 
     List<ListAssistantAccountResponse> getListAssistantAccount(String condition, String roles, int filter);
 

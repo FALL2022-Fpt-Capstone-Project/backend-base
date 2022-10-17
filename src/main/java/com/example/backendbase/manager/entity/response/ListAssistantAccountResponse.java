@@ -13,13 +13,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class ListAssistantAccountResponse {
+
+    @JsonProperty("id")
     private Long id;
 
     @JsonProperty("user_name")
     private String username;
-
-    @JsonIgnore
-    private int identityId;
 
     @JsonProperty("created_date")
     private Timestamp createdDate;
@@ -50,4 +49,7 @@ public class ListAssistantAccountResponse {
 
     @JsonProperty("permission")
     private int[] permission;
+
+    @JsonProperty("deactivate")
+    private boolean isDeactivate;
 }
