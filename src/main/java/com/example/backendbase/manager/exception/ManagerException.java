@@ -6,4 +6,10 @@ public class ManagerException extends Exception {
         super(msg);
     }
 
+    public ManagerException(String msg, Throwable throwable) {
+        super(msg, throwable);
+    }
+
+    public ManagerException() {
+    }
 }

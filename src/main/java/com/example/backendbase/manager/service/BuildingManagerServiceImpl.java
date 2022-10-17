@@ -6,9 +6,14 @@ import com.example.backendbase.manager.entity.Buildings;
 import com.example.backendbase.manager.entity.request.AddBuildingRequest;
 import com.example.backendbase.manager.entity.request.UpdateBuildingRequest;
 import com.example.backendbase.manager.entity.response.ListAllBuildingResponse;
-import com.example.backendbase.manager.repo.BuildingRepo;
+import com.example.backendbase.manager.entity.response.RoomGroupResponse;
+import com.example.backendbase.manager.exception.ManagerException;
+import com.example.backendbase.manager.repo.*;
+import com.example.backendbase.manager.repo.native_repo.AssetsNativeRepo;
+import com.example.backendbase.manager.repo.native_repo.ServiceNativeRepo;
 import com.example.backendbase.user.util.CurrentUserUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +25,18 @@ import java.util.List;
 public class BuildingManagerServiceImpl implements BuildingManagerService {
 
     private final BuildingRepo buildingRepo;
+
+    private final RoomsRepo roomsRepo;
+
+    private final GroupRepo groupRepo;
+
+    private final AddressRepo addressRepo;
+
+    private final ContractRepo contractRepo;
+
+    private final AssetsNativeRepo assetsNativeRepo;
+
+    private final ServiceNativeRepo serviceNativeRepo;
 
     @Override
     public Buildings addNewBuilding(AddBuildingRequest request) {
@@ -59,6 +76,24 @@ public class BuildingManagerServiceImpl implements BuildingManagerService {
         //update
         buildingRepo.save(building);
         return "update successfully";
+    }
+
+    @Override
+    @SneakyThrows
+    public RoomGroupResponse getGroupById(Long groupId) {
+        var roomGroup = groupRepo.findById(groupId).orElseThrow(() -> new ManagerException("Không tìm thấy group theo id"));
+        var groupContract = contractRepo.findByGroupId(groupId);
+        var roomGroupAddress = addressRepo.findById(roomGroup.getAddress()).orElse(new Address());
+        var roomListByGroup = roomsRepo.findAllByRoomGroups(groupId);
+
+        return RoomGroupResponse.builder().
+                id(roomGroup.getId()).
+                name(roomGroup.getName()).
+                address(roomGroupAddress).
+                listRoom(roomListByGroup).
+                listHandOverAssets(assetsNativeRepo.findHandOverAssetsByContractId(groupContract.getId())).
+                listBasicServices(serviceNativeRepo.findAllGeneralServiceByContractId(groupContract.getId())).
+                build();
     }
 
     @Override

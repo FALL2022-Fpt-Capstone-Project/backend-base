@@ -1,12 +1,17 @@
 package com.example.backendbase.manager.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import java.util.List;
 
-@Getter @Setter @Builder
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddContractRequest {
 
     //contract information
@@ -71,4 +76,39 @@ public class AddContractRequest {
     @JsonProperty("group_id")
     private Long groupId;
     //--------------------------
+
+    @JsonProperty("list_assets")
+    private List<HandOverAssetsRequest> basicAssets;
+
+    @JsonProperty("list_general_service")
+    private List<HandOverGeneralService> handOverGeneralServices;
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class HandOverAssetsRequest {
+
+        @JsonProperty("asset_id")
+        private Long assetsId;
+
+        @JsonProperty("asset_amount")
+        private int numberOfAsset;
+
+        @JsonProperty("asset_date_delivery")
+        private String dateOfDelivery;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+    public static class HandOverGeneralService {
+        private Long generalServiceId;
+
+        private Integer handOverIndex;
+    }
 }

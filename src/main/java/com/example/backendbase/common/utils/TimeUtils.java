@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 @UtilityClass
 public class TimeUtils {
@@ -18,14 +19,33 @@ public class TimeUtils {
     }
 
     public static Timestamp getCurrentTime() {
+        TimeZone.setDefault(TimeZone.getTimeZone("VST"));
         return new Timestamp(new Date().getTime());
     }
 
     @SneakyThrows
     public static Timestamp parseToTimestamp(String time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-        Date parsedDate = dateFormat.parse(time);
-        return new java.sql.Timestamp(parsedDate.getTime());
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(time);
+            return new java.sql.Timestamp(parsedDate.getTime());
+        } catch (Exception e) {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = dateFormat.parse(time);
+                return new java.sql.Timestamp(parsedDate.getTime());
+            } catch (Exception ex) {
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                    Date parsedDate = dateFormat.parse(time);
+                    return new java.sql.Timestamp(parsedDate.getTime());
+                } catch (Exception exc) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    Date parsedDate = dateFormat.parse(time);
+                    return new java.sql.Timestamp(parsedDate.getTime());
+                }
+            }
+        }
     }
 
     public static Timestamp parseToTimestamp(LocalDateTime time) {

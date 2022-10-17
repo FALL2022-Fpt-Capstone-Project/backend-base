@@ -14,17 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModifyAssistantAccountRequest {
-    @JsonProperty("account_id")
-    private Long id;
-
-    @JsonSetter("account_id")
-    public void setId(Long s) {
-        if (s != null) {
-            id = s;
-        }
-    }
-
-    @JsonProperty("username")
+    @JsonProperty("user_name")
     private String userName;
 
     @JsonProperty("role")
@@ -40,4 +30,10 @@ public class ModifyAssistantAccountRequest {
 
     @JsonProperty("address_more_detail")
     private String moreDetails;
+
+    @JsonProperty("permission")
+    private int[] permission;
+
+    @JsonProperty("deactivate")
+    private Boolean deactivate;
 }

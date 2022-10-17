@@ -19,9 +19,15 @@ public class ContractController {
         return ResponseUtils.httpResponse(contractManagerService.addNewContract(request));
     }
 
-    @GetMapping("/get-contract/{groupId}")
+    @GetMapping("/get-contract/{id}")
     public ResponseEntity<Object> getContract(@RequestParam(name = "filter", required = false) String filter,
-                                              @PathVariable Integer groupId){
-        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, groupId));
+                                              @PathVariable Integer id) {
+        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, id));
+    }
+
+    @GetMapping("/get-contract/rooms/{id}")
+    public ResponseEntity<Object> getRoomContract(@RequestParam(name = "filter", required = false) String filter,
+                                                  @PathVariable Integer id) {
+        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, id));
     }
 }

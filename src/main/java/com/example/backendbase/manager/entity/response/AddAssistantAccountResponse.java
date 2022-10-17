@@ -19,6 +19,9 @@ public class AddAssistantAccountResponse {
     @JsonProperty("user_name")
     private String username;
 
+    @JsonProperty("password")
+    private String password;
+
     @JsonIgnore
     private int identityId;
 
@@ -38,5 +41,8 @@ public class AddAssistantAccountResponse {
 
     @JsonProperty("address_more_detail")
     private String moreDetails;
+
+    @JsonProperty("permission")
+    private int[] permission;
 
 }

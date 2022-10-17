@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/manager")
+@RequestMapping("/api/manager/group")
 public class BuildingController {
 
     @Autowired
@@ -33,6 +33,11 @@ public class BuildingController {
     @GetMapping("/get-building-information/{Id}")
     public ResponseEntity<Object> getBuilding(@PathVariable("Id") Long buildingId){
         return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.getBuilding(buildingId));
+    }
+
+    @GetMapping("/get-group/{groupId}")
+    public ResponseEntity<Object> getGroupById(@PathVariable() Long groupId){
+        return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.getGroupById(groupId));
     }
 
 }

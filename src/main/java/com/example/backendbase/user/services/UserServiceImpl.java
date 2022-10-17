@@ -1,12 +1,13 @@
 package com.example.backendbase.user.services;
 
+import com.example.backendbase.common.utils.ParseUtils;
 import com.example.backendbase.common.utils.TimeUtils;
 import com.example.backendbase.manager.entity.Address;
 import com.example.backendbase.security.service.UserAuthenDetailsImpl;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
 import com.example.backendbase.manager.entity.response.AddAssistantAccountResponse;
 import com.example.backendbase.manager.entity.response.ChangeAssistantPassResponse;
-import com.example.backendbase.manager.entity.response.ListAssistantAccountResponse;
+import com.example.backendbase.manager.entity.response.StaffAccountResponse;
 import com.example.backendbase.user.entity.request.LoginResponse;
 import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
 import com.example.backendbase.user.repo.RoleRepo;
@@ -31,7 +32,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,7 +85,8 @@ public class UserServiceImpl implements IUserService {
                 fullName(signUpRequest.getFullName()).
                 gender(signUpRequest.getGender()).
                 phoneNumber(signUpRequest.getPhoneNumber()).
-                createdDate(new Timestamp(System.currentTimeMillis())).
+                createdDate(TimeUtils.getCurrentTime()).
+                permission(ParseUtils.parseIntArrayToString(signUpRequest.getPermission())).
                 address(Address.builder().
                         city(signUpRequest.getCity()).
                         district(signUpRequest.getDistrict()).
@@ -106,34 +107,9 @@ public class UserServiceImpl implements IUserService {
         return "You've been signed out!";
     }
 
-    @Override
-    @SneakyThrows
-    public User updateAccount(ModifyAssistantAccountRequest changeRequest) {
-        Optional<User> userToUpdateRole;
-        if (changeRequest.getId() == null) {
-            userToUpdateRole = userRepository.findByUsername(changeRequest.getUserName());
-            if (!userToUpdateRole.isPresent()) throw new UsernameNotFoundException("Username Not Found!!");
-        } else {
-            changeRequest.setId(changeRequest.getId());
-            userToUpdateRole = userRepository.findById(changeRequest.getId());
-            if (!userToUpdateRole.isPresent()) throw new UsernameNotFoundException("AccountId Not Found!!");
-        }
-
-        userToUpdateRole.get().setUsername(changeRequest.getUserName());
-        userToUpdateRole.get().setGender(changeRequest.getGender());
-        userToUpdateRole.get().setFullName(changeRequest.getFullName());
-        userToUpdateRole.get().setPhoneNumber(changeRequest.getPhoneNumber());
-        userToUpdateRole.get().getAddress().setMoreDetails(changeRequest.getMoreDetails());
-        if (!Objects.isNull(changeRequest.getRole())) {
-            userToUpdateRole.get().setRoles(roleChecker(changeRequest.getRole()));
-
-        }
-        return userRepository.save(userToUpdateRole.get());
-
-    }
 
     @Override
-    public List<ListAssistantAccountResponse> getListUserByRole(ERole role) {
+    public List<StaffAccountResponse> getListUserByRole(ERole role) {
         return null;
     }
 
@@ -145,11 +121,11 @@ public class UserServiceImpl implements IUserService {
 //    }
 
     @Override
-    public List<ListAssistantAccountResponse> getListAssistantAccount() {
+    public List<StaffAccountResponse> getListAssistantAccount() {
         var listAssistantAccount = userRepository.findAllByIsOwner(false);
-        List<ListAssistantAccountResponse> response = new ArrayList<>();
+        List<StaffAccountResponse> response = new ArrayList<>();
         listAssistantAccount.forEach(user -> {
-            response.add(ListAssistantAccountResponse.builder().
+            response.add(StaffAccountResponse.builder().
                     id(user.getId()).
                     username(user.getUsername()).
                     createdDate(user.getCreatedDate()).
@@ -175,11 +151,6 @@ public class UserServiceImpl implements IUserService {
             userRepository.save(userToDeactive);
             return "Deactive " + username + " success";
         }
-        if (value instanceof String) {
-            var userToDeactive = userRepository.deleteUserByUsername((String) value);
-            userToDeactive.setIsDeactive(true);
-            return "Deactive " + value + " success";
-        }
         throw new UsernameNotFoundException("Can not found username or id");
     }
 
@@ -190,15 +161,6 @@ public class UserServiceImpl implements IUserService {
             accountToChangePass.setEPassword(encoder.encode(request.getNewPassword()));
             return ChangeAssistantPassResponse.builder()
                     .newPassWord(request.getNewPassword())
-                    .account(accountToChangePass.getUsername())
-                    .build();
-        }
-        if (value instanceof String) {
-            var accountToChangePass = userRepository.findByUsername((String) value).get();
-            accountToChangePass.setEPassword(encoder.encode(request.getNewPassword()));
-            return ChangeAssistantPassResponse.builder()
-                    .newPassWord(request.getNewPassword())
-                    .account(accountToChangePass.getUsername())
                     .build();
         }
         throw new UsernameNotFoundException("Can not found username or id");

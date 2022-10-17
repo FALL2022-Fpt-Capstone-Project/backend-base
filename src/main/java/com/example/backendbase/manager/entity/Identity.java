@@ -3,6 +3,8 @@ package com.example.backendbase.manager.entity;
 
 import com.example.backendbase.common.utils.TimeUtils;
 import com.example.backendbase.user.util.CurrentUserUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -21,9 +23,11 @@ public class Identity {
     private Long id;
 
     @Column(name = "identity_front_img")
+    @JsonProperty("identity_front_img")
     private String identityFrontImg;
 
     @Column(name = "identity_back_img")
+    @JsonProperty("identity_back_img")
     private String identityBackImg;
 
     @Column(name = "created_by")
@@ -33,5 +37,6 @@ public class Identity {
     private Timestamp updatedTime = TimeUtils.getCurrentTime();
 
     @OneToOne(mappedBy = "identity")
+    @JsonIgnore
     private Renters renters;
 }

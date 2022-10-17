@@ -30,7 +30,7 @@ public class ContractManagerServiceImpl implements ContractManagerService {
     private final RenterRepo renterRepo;
 
     @Override
-    public Object addNewContract(AddContractRequest request) throws ManagerException {
+    public AddContractRequest addNewContract(AddContractRequest request) throws ManagerException {
         return contractNativeRepo.addNewContract(request);
     }
 
@@ -45,15 +45,15 @@ public class ContractManagerServiceImpl implements ContractManagerService {
     }
 
     @Override
-    public List<Contracts> getAllContractWithFilter(String condition, Integer groupId) {
-        var listContract = contractRepo.findAllByGroupId(groupId.longValue());
+    public List<Contracts> getAllContractWithFilter(String condition, Integer buidingId) {
+        var listContract = contractRepo.findAllByGroupId(buidingId.longValue());
         ArrayList<Contracts> contracts = new ArrayList<>();
 
         LocalDateTime now = LocalDateTime.now();
 
 
         if (Objects.isNull(condition)) {
-            return contractRepo.findAllByGroupId(groupId.longValue());
+            return contractRepo.findAllByGroupId(buidingId.longValue());
         }
         if (condition.equals(ManagerConstant.EXPIRED_CONTRACT)) {
             listContract.forEach(value -> {
@@ -71,7 +71,7 @@ public class ContractManagerServiceImpl implements ContractManagerService {
             Timestamp conditionToCompare = TimeUtils.parseToTimestamp(now.minusMonths(3));
             return contractRepo.findAllByLatest(conditionToCompare, TimeUtils.parseToTimestamp(now));
         }
-        return null;
+        return contractRepo.findAllByGroupId(buidingId.longValue());
     }
 
     @Override

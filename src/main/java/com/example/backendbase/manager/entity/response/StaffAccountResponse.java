@@ -1,6 +1,5 @@
 package com.example.backendbase.manager.entity.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,14 +11,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ListAssistantAccountResponse {
+public class StaffAccountResponse {
+
+    @JsonProperty("id")
     private Long id;
 
     @JsonProperty("user_name")
     private String username;
-
-    @JsonIgnore
-    private int identityId;
 
     @JsonProperty("created_date")
     private Timestamp createdDate;
@@ -50,4 +48,7 @@ public class ListAssistantAccountResponse {
 
     @JsonProperty("permission")
     private int[] permission;
+
+    @JsonProperty("deactivate")
+    private boolean isDeactivate;
 }

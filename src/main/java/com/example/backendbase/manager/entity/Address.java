@@ -39,11 +39,11 @@ public class Address {
     private String moreDetails;
 
     @Column(name = "updated_time")
-    @JsonProperty("updated_time")
+    @JsonIgnore
     private Timestamp updatedTime;
 
     @Column(name = "created_by")
-    @JsonProperty("created_by")
+    @JsonIgnore
     private String createdBy;
 
     @OneToOne(mappedBy = "address")

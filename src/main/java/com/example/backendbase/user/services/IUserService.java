@@ -4,7 +4,7 @@ import com.example.backendbase.security.enums.ERole;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
 import com.example.backendbase.manager.entity.response.AddAssistantAccountResponse;
 import com.example.backendbase.manager.entity.response.ChangeAssistantPassResponse;
-import com.example.backendbase.manager.entity.response.ListAssistantAccountResponse;
+import com.example.backendbase.manager.entity.response.StaffAccountResponse;
 import com.example.backendbase.user.entity.request.LoginResponse;
 import com.example.backendbase.user.entity.User;
 import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
@@ -21,11 +21,9 @@ public interface IUserService {
 
     String logout();
 
-    User updateAccount(ModifyAssistantAccountRequest changeRequest);
+    List<StaffAccountResponse> getListUserByRole(ERole role);
 
-    List<ListAssistantAccountResponse> getListUserByRole(ERole role);
-
-    List<ListAssistantAccountResponse> getListAssistantAccount();
+    List<StaffAccountResponse> getListAssistantAccount();
 
     String deactiveAssistantAccount(Object value);
 
