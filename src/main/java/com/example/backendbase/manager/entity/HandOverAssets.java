@@ -3,6 +3,7 @@ package com.example.backendbase.manager.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,4 +30,7 @@ public class HandOverAssets {
 
     @Column(name = "contract_id")
     private Long contractId;
+
+    @Column(name = "hand_over_asset_date_delivery")
+    private Timestamp dateOfDelivery;
 }

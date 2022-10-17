@@ -6,8 +6,11 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter @Setter @Builder
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddContractRequest {
 
     //contract information
@@ -74,9 +77,22 @@ public class AddContractRequest {
     //--------------------------
 
     @JsonProperty("list_assets")
-    private List<BasicAssets> basicAssets;
+    private List<HandOverAssetsRequest> basicAssets;
 
-    public class HandOverAssetsRequest{
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class HandOverAssetsRequest {
 
+        @JsonProperty("asset_id")
+        private String assetsId;
+
+        @JsonProperty("asset_amount")
+        private int numberOfAsset;
+
+        @JsonProperty("asset_date_delivery")
+        private String dateOfDelivery;
     }
 }

@@ -28,6 +28,10 @@ public class BasicAssets {
     @JsonProperty("asset_name")
     String name;
 
+    @Column(name = "asset_type")
+    @JsonProperty("asset_type")
+    String type;
+
     @Column(name = "created_by")
     @JsonIgnore
     private String createdBy = CurrentUserUtils.getCurrentUser();
