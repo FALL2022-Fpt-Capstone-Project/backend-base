@@ -5,10 +5,10 @@ import com.example.backendbase.manager.entity.*;
 import com.example.backendbase.manager.entity.request.AddContractRequest;
 import com.example.backendbase.manager.exception.ManagerException;
 import com.example.backendbase.manager.repo.ContractRepo;
+import com.example.backendbase.manager.repo.HandOverAssetsRepo;
 import com.example.backendbase.manager.repo.RenterRepo;
 import lombok.var;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,15 +26,18 @@ public class ContractNativeRepo {
 
     private final RenterRepo renterRepo;
 
+    private final HandOverAssetsRepo assetsRepo;
     private final ContractRepo contractRepo;
 
-    public ContractNativeRepo(RenterRepo renterRepo, ContractRepo contractRepo) {
+
+    public ContractNativeRepo(RenterRepo renterRepo, HandOverAssetsRepo assetsRepo, ContractRepo contractRepo) {
         this.renterRepo = renterRepo;
+        this.assetsRepo = assetsRepo;
         this.contractRepo = contractRepo;
     }
 
     @Transactional
-    public Contracts addNewContract(AddContractRequest request) throws ManagerException {
+    public AddContractRequest addNewContract(AddContractRequest request) throws ManagerException {
         var contract = new Contracts();
         BeanUtils.copyProperties(request, contract);
 
@@ -71,14 +74,17 @@ public class ContractNativeRepo {
             entityManager.persist(contract);
             entityManager.flush();
         }
-//        List<HandOverAssets> listAssetsToAdd = new ArrayList<>();
-//        request.getBasicAssets().forEach(basicAssets -> {
-//            listAssetsToAdd.add(HandOverAssets.builder().
-//                    assetId(basicAssets.getId()).
-//                    contractId(contract.getId())
-//                    .build())
-//        });
-        return contract;
+        List<HandOverAssets> handOverAssets = new ArrayList<>();
+        request.getBasicAssets().forEach(assets -> handOverAssets.add(HandOverAssets.builder()
+                .contractId(contract.getId())
+                .assetId(assets.getAssetsId())
+                .quantity(assets.getNumberOfAsset())
+                .dateOfDelivery(TimeUtils.parseToTimestamp(assets.getDateOfDelivery()))
+                .build()));
+        assetsRepo.saveAll(handOverAssets);
+
+
+        return request;
 
     }
 }

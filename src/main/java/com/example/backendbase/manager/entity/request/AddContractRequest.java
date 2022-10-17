@@ -1,6 +1,5 @@
 package com.example.backendbase.manager.entity.request;
 
-import com.example.backendbase.manager.entity.BasicAssets;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -87,7 +86,7 @@ public class AddContractRequest {
     public static class HandOverAssetsRequest {
 
         @JsonProperty("asset_id")
-        private String assetsId;
+        private Long assetsId;
 
         @JsonProperty("asset_amount")
         private int numberOfAsset;

@@ -23,9 +23,21 @@ public class TimeUtils {
 
     @SneakyThrows
     public static Timestamp parseToTimestamp(String time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-        Date parsedDate = dateFormat.parse(time);
-        return new java.sql.Timestamp(parsedDate.getTime());
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(time);
+            return new java.sql.Timestamp(parsedDate.getTime());
+        } catch (Exception e) {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = dateFormat.parse(time);
+                return new java.sql.Timestamp(parsedDate.getTime());
+            } catch (Exception ex) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date parsedDate = dateFormat.parse(time);
+                return new java.sql.Timestamp(parsedDate.getTime());
+            }
+        }
     }
 
     public static Timestamp parseToTimestamp(LocalDateTime time) {

@@ -22,9 +22,6 @@ public class HandOverAssets {
     @Column(name = "hand_over_asset_quantity")
     private int quantity;
 
-    @Column(name = "hand_over_asset_unit")
-    private String unit;
-
     @Column(name = "asset_id")
     private Long assetId;
 
