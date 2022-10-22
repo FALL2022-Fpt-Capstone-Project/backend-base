@@ -3,8 +3,10 @@ package com.example.backendbase.common.utils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
@@ -21,10 +23,9 @@ public class TimeUtils {
     }
 
     public static Timestamp getCurrentTime() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("VST"));
-        return new Timestamp(calendar.getTimeInMillis());
+        Instant i = Instant.now(Clock.system(ZoneId.of("Asia/Ho_Chi_Minh")));
+        return Timestamp.from(i);
     }
-
     @SneakyThrows
     public static Timestamp parseToTimestamp(String time) {
         try {

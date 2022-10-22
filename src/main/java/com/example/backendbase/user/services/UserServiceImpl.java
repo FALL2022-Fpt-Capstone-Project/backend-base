@@ -55,9 +55,10 @@ public class UserServiceImpl implements IUserService {
         jwtUtils.getCleanJwtCookie();
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
-        var user = (UserAuthenDetailsImpl) authentication.getPrincipal();
-        if (userRepository.findById(user.getId()).get().getIsDeactive()) {
-            throw new AccountStatusException("This account was deactivate") {
+        var principalUser = (UserAuthenDetailsImpl) authentication.getPrincipal();
+        var loginUser = userRepository.findById(principalUser.getId()).get();
+        if (loginUser.getIsDeactive()) {
+            throw new AccountStatusException("Tài khoản đã bị khóa") {
             };
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -65,6 +66,8 @@ public class UserServiceImpl implements IUserService {
 
         return LoginResponse.builder()
                 .token(jwtUtils.generateJwtCookie(userDetails).getValue())
+                .isDeactivate(loginUser.getIsDeactive())
+                .permission(ParseUtils.parseStringArrayToIntArray(loginUser.getPermission()))
                 .role(authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
                 .build();

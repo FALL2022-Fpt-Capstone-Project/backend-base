@@ -12,5 +12,9 @@ import java.util.Set;
 public class LoginResponse {
     private String token;
 
+    private int[] permission;
+
+    private boolean isDeactivate;
+
     private Set<String> role;
 }
