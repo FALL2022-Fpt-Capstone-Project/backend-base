@@ -48,9 +48,6 @@ public class Renters {
     @Column(name = "updated_time")
     @JsonIgnore
     private Timestamp updatedTime = TimeUtils.getCurrentTime();
-
-    //One to one with Tabel Identity
-    //Một người chỉ có thể có 1 CCCD/CMND duy nhất
     @JoinColumn(name = "identity_id")
     @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("renter_identity")

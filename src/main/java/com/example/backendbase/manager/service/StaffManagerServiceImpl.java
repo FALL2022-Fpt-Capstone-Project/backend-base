@@ -8,7 +8,7 @@ import com.example.backendbase.security.enums.ERole;
 import com.example.backendbase.user.entity.Role;
 import com.example.backendbase.user.entity.User;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
-import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
+import com.example.backendbase.manager.entity.request.ModifyAccountRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
 import com.example.backendbase.manager.entity.response.AddAssistantAccountResponse;
 import com.example.backendbase.manager.entity.response.ChangeAssistantPassResponse;
@@ -40,7 +40,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
 
     @Override
     @SneakyThrows
-    public StaffAccountResponse updateAccount(ModifyAssistantAccountRequest changeRequest, Long staffId) {
+    public StaffAccountResponse updateAccount(ModifyAccountRequest changeRequest, Long staffId) {
         Optional<User> userToUpdateRole;
 
         userToUpdateRole = userRepository.findById(staffId);
@@ -48,6 +48,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
         if(Objects.isNull(changeRequest.getDeactivate())) changeRequest.setDeactivate(false);
         userToUpdateRole.get().setUsername(changeRequest.getUserName());
         userToUpdateRole.get().setGender(changeRequest.getGender());
+        userToUpdateRole.get().setRoles(roleChecker(changeRequest.getRole()));
         userToUpdateRole.get().setFullName(changeRequest.getFullName());
         userToUpdateRole.get().setPhoneNumber(changeRequest.getPhoneNumber());
         userToUpdateRole.get().setEPassword(userToUpdateRole.get().getEPassword());

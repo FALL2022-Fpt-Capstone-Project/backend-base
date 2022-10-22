@@ -83,6 +83,9 @@ public class AddContractRequest {
     @JsonProperty("list_general_service")
     private List<HandOverGeneralService> handOverGeneralServices;
 
+    @JsonProperty("list_renter")
+    private List<Renter> member;
+
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
@@ -110,5 +113,25 @@ public class AddContractRequest {
         private Long generalServiceId;
 
         private Integer handOverIndex;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+    public static class Renter {
+        private String name;
+
+        private Boolean gender;
+
+        private String phoneNumber;
+
+        private String identityCard;
+
+        private String licensePlates;
+
+        private String address;
     }
 }

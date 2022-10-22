@@ -4,9 +4,8 @@ import com.example.backendbase.common.utils.ResponseUtils;
 
 import com.example.backendbase.manager.service.StaffManagerService;
 import com.example.backendbase.manager.entity.request.ChangePassRequest;
-import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
+import com.example.backendbase.manager.entity.request.ModifyAccountRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
-import com.example.backendbase.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,7 +45,7 @@ public class StaffController {
     }
 
     @PutMapping("/update-account/{staffId}")
-    public ResponseEntity<Object> updateAccount(@RequestBody ModifyAssistantAccountRequest request,
+    public ResponseEntity<Object> updateAccount(@RequestBody ModifyAccountRequest request,
                                                 @PathVariable(name = "staffId") Long staffId) {
         return ResponseUtils.httpResponse(assistantAccManager.updateAccount(request, staffId));
     }

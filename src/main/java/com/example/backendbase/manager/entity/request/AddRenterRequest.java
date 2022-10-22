@@ -1,4 +1,4 @@
 package com.example.backendbase.manager.entity.request;
 
-public class AddRenterRequest {
+public class AddRenterRequest extends AddContractRequest.Renter{
 }

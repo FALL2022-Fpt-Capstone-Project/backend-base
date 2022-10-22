@@ -9,7 +9,6 @@ import com.example.backendbase.manager.entity.response.AddAssistantAccountRespon
 import com.example.backendbase.manager.entity.response.ChangeAssistantPassResponse;
 import com.example.backendbase.manager.entity.response.StaffAccountResponse;
 import com.example.backendbase.user.entity.request.LoginResponse;
-import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
 import com.example.backendbase.user.repo.RoleRepo;
 import com.example.backendbase.user.repo.UserRepo;
 import com.example.backendbase.security.enums.ERole;

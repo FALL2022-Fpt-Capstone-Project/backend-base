@@ -1,7 +1,6 @@
 package com.example.backendbase.manager.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModifyAssistantAccountRequest {
+public class ModifyAccountRequest {
     @JsonProperty("user_name")
     private String userName;
 

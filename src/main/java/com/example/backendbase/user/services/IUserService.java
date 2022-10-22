@@ -7,7 +7,6 @@ import com.example.backendbase.manager.entity.response.ChangeAssistantPassRespon
 import com.example.backendbase.manager.entity.response.StaffAccountResponse;
 import com.example.backendbase.user.entity.request.LoginResponse;
 import com.example.backendbase.user.entity.User;
-import com.example.backendbase.manager.entity.request.ModifyAssistantAccountRequest;
 import com.example.backendbase.user.entity.request.LoginRequest;
 import com.example.backendbase.user.entity.request.RegisterRequest;
 
