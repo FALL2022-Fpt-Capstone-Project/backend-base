@@ -48,7 +48,6 @@ public class StaffManagerServiceImpl implements StaffManagerService {
         if(Objects.isNull(changeRequest.getDeactivate())) changeRequest.setDeactivate(false);
         userToUpdateRole.get().setUsername(changeRequest.getUserName());
         userToUpdateRole.get().setGender(changeRequest.getGender());
-        userToUpdateRole.get().setRoles(roleChecker(changeRequest.getRole()));
         userToUpdateRole.get().setFullName(changeRequest.getFullName());
         userToUpdateRole.get().setPhoneNumber(changeRequest.getPhoneNumber());
         userToUpdateRole.get().setEPassword(userToUpdateRole.get().getEPassword());
@@ -104,7 +103,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
                             userRepository.findAllByIsOwnerAndRoles_NameInOrderByCreatedDateDesc(false, listRole));
                 case "oldest":
                     return buildAssistantAccountByFilter(
-                            userRepository.findAllByIsOwnerAndRoles_NameInOrderByCreatedDateAsc(false, listRole));
+                            userARepository.findAllByIsOwnerAndRoles_NameInOrderByCreatedDateAsc(false, listRole));
             }
             return buildAssistantAccountByFilter(userRepository.findAllByIsOwnerAndRoles_NameInAndIsDeactiveOrderByCreatedDateDesc(false, listRole, false));
         }

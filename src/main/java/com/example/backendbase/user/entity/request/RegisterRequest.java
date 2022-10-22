@@ -14,7 +14,7 @@ public class RegisterRequest {
 
     private String password;
 
-    private Set<String> roles;
+    private Set<String> role;
 
     @JsonProperty("full_name")
     private String fullName;
