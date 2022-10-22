@@ -3,7 +3,9 @@ package com.example.backendbase.common.utils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -19,8 +21,8 @@ public class TimeUtils {
     }
 
     public static Timestamp getCurrentTime() {
-        TimeZone.setDefault(TimeZone.getTimeZone("VST"));
-        return new Timestamp(new Date().getTime());
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("VST"));
+        return new Timestamp(calendar.getTimeInMillis());
     }
 
     @SneakyThrows
