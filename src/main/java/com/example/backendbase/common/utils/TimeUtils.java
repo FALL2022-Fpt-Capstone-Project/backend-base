@@ -3,15 +3,10 @@ package com.example.backendbase.common.utils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Calendar;
+import java.time.*;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 @UtilityClass
 public class TimeUtils {
@@ -24,7 +19,11 @@ public class TimeUtils {
 
     public static Timestamp getCurrentTime() {
         Instant i = Instant.now(Clock.system(ZoneId.of("Asia/Ho_Chi_Minh")));
-        return Timestamp.from(i);
+        return Timestamp.from(i.atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toInstant());
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getCurrentTime());
     }
     @SneakyThrows
     public static Timestamp parseToTimestamp(String time) {
