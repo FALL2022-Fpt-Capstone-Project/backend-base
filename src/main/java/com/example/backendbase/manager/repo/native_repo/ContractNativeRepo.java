@@ -69,7 +69,6 @@ public class ContractNativeRepo {
                     address(Address.builder().build()).build()).getId();
             contract.setRenters(newRenterId);
             contract.setRoom(request.getRoomId());
-            contract.setRenters(newRenterId);
             entityManager.persist(contract);
             entityManager.flush();
         }
@@ -82,9 +81,9 @@ public class ContractNativeRepo {
                         .dateOfDelivery(contract.getStartDate())
                         .build()));
         assetsRepo.saveAll(handOverAssets);
-
-        List<HandOverGeneralService> handOverGeneralServices = new ArrayList<>();
-        request.getHandOverGeneralServices().forEach(service ->
+        if (!request.getHandOverGeneralServices().isEmpty()) {
+            List<HandOverGeneralService> handOverGeneralServices = new ArrayList<>();
+            request.getHandOverGeneralServices().forEach(service ->
                     handOverGeneralServices.add(
                             HandOverGeneralService.builder()
                                     .handOverIndex(service.getHandOverIndex())
@@ -93,8 +92,44 @@ public class ContractNativeRepo {
                                     .dateOfDelivery(contract.getStartDate())
                                     .build()
                     ));
-                generalServiceRepo.saveAll(handOverGeneralServices);
+            generalServiceRepo.saveAll(handOverGeneralServices);
+        }
+        if (!request.getMember().isEmpty()) addRenters(request, false);
         return request;
+    }
 
+    public Renters addRenters(AddContractRequest renters, Boolean isRepresent) {
+        String gender = "Nam";
+        if (isRepresent.equals(Boolean.TRUE)) {
+            if (Boolean.FALSE.equals(renters.getGender())) gender = "Nữ";
+            return renterRepo.save(Renters.builder().
+                    renterFullName(renters.getRenterName()).
+                    gender(gender).
+                    phoneNumber(renters.getPhoneNumber()).
+                    email(renters.getEmail()).
+                    identityNumber(renters.getIdentityCard()).
+                    identity(Identity.builder().build()).
+                    represent(true).
+                    address(Address.builder().build()).build());
+        } else {
+            List<Renters> listMember = new ArrayList<>();
+            String finalGender = gender;
+            renters.getMember().forEach(members -> {
+                String memGender = finalGender;
+                if (Boolean.FALSE.equals(renters.getGender())) memGender = "Nữ";
+                listMember.add(Renters.builder().
+                        renterFullName(renters.getRenterName()).
+                        gender(memGender).
+                        phoneNumber(members.getPhoneNumber()).
+                        identityNumber(members.getIdentityCard()).
+                        identity(Identity.builder().build()).
+                        roomId(renters.getRoomId()).
+                        groupId(renters.getGroupId()).
+                        represent(false).
+                        address(Address.builder().moreDetails(members.getAddress()).build()).build());
+            });
+            renterRepo.saveAll(listMember);
+        }
+        return new Renters();
     }
 }

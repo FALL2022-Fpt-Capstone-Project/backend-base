@@ -37,6 +37,18 @@ public class Renters {
     @JsonProperty("renter_email")
     private String email;
 
+    @Column(name = "contract_represent")
+    @JsonProperty("represent")
+    private Boolean represent;
+
+    @Column(name = "room_id")
+    @JsonProperty("room_id")
+    private Long roomId;
+
+    @Column(name = "group_id")
+    @JsonProperty("group_id")
+    private Long groupId;
+
     @Column(name = "renter_identity_number")
     @JsonProperty("renter_identity_number")
     private String identityNumber;

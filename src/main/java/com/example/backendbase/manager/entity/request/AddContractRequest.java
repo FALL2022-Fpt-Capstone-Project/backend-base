@@ -102,7 +102,6 @@ public class AddContractRequest {
         @JsonProperty("asset_date_delivery")
         private String dateOfDelivery;
     }
-
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
@@ -133,5 +132,7 @@ public class AddContractRequest {
         private String licensePlates;
 
         private String address;
+
+        private String listImage;
     }
 }
