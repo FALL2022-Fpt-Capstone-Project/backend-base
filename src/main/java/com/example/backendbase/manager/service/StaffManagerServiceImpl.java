@@ -103,7 +103,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
                             userRepository.findAllByIsOwnerAndRoles_NameInOrderByCreatedDateDesc(false, listRole));
                 case "oldest":
                     return buildAssistantAccountByFilter(
-                            userARepository.findAllByIsOwnerAndRoles_NameInOrderByCreatedDateAsc(false, listRole));
+                            userRepository.findAllByIsOwnerAndRoles_NameInOrderByCreatedDateAsc(false, listRole));
             }
             return buildAssistantAccountByFilter(userRepository.findAllByIsOwnerAndRoles_NameInAndIsDeactiveOrderByCreatedDateDesc(false, listRole, false));
         }

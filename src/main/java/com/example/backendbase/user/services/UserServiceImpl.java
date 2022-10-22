@@ -95,7 +95,7 @@ public class UserServiceImpl implements IUserService {
                         updatedTime(TimeUtils.getCurrentTime()).
                         build()).
                 build();
-        user.setRoles(roleChecker(signUpRequest.getRoles()));
+        user.setRoles(roleChecker(signUpRequest.getRole()));
         userRepository.save(user);
 
         return user;
