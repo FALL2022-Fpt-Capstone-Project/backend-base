@@ -35,9 +35,14 @@ public class AssetController {
         return ResponseUtils.httpResponse(assetMangerService.updateBasicAsset(request, Long.parseLong(basicAssetId)));
     }
 
-    @GetMapping("/hand-over/contract/{contractId}")
-    public ResponseEntity<Object> getAllHandOverAsset(@PathVariable String contractId) {
-        return ResponseUtils.httpResponse(assetMangerService.getHandOverAssetByContractId(Long.parseLong(contractId)));
+    @GetMapping("/hand-over/{contractId}")
+    public ResponseEntity<Object> getAllHandOverAsset(@PathVariable Long contractId) {
+        return ResponseUtils.httpResponse(assetMangerService.getHandOverAssetByContractId(contractId));
+    }
+
+    @PutMapping("/hand-over/update/{contractId}")
+    public ResponseEntity<Object> updateHandOverAsset(@PathVariable Long contractId) {
+        return ResponseUtils.httpResponse(assetMangerService.updateHandOverAsset(contractId));
     }
 
     @GetMapping("/type")

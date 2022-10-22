@@ -23,4 +23,5 @@ public interface AssetMangerService {
 
     List<AssetTypes> getAllAssetTypes();
 
+    List<HandOverAssetsDTO> updateHandOverAsset(Long contractId);
 }

@@ -9,7 +9,6 @@ import com.example.backendbase.manager.repo.HandOverAssetsRepo;
 import com.example.backendbase.manager.repo.HandOverGeneralServiceRepo;
 import com.example.backendbase.manager.repo.RenterRepo;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
@@ -17,9 +16,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,6 +50,9 @@ public class ContractNativeRepo {
 
         if (request.getOldRenterId() != null) {
             contract.setRenters(request.getOldRenterId());
+            var updateOldRenter = renterRepo.findById(request.getOldRenterId());
+            updateOldRenter.get().setRepresent(true);
+            renterRepo.save(updateOldRenter.get());
             contract.setRoom(request.getRoomId());
             entityManager.persist(contract);
         } else {
@@ -63,9 +64,8 @@ public class ContractNativeRepo {
                     phoneNumber(request.getPhoneNumber()).
                     email(request.getEmail()).
                     identityNumber(request.getIdentityCard()).
-                    identity(Identity.builder().
-                            identityFrontImg(request.getImage().get(0)).
-                            identityBackImg(request.getImage().get(1)).build()).
+                    identity(Identity.builder().build()).
+                    represent(true).
                     address(Address.builder().build()).build()).getId();
             contract.setRenters(newRenterId);
             contract.setRoom(request.getRoomId());
@@ -73,28 +73,62 @@ public class ContractNativeRepo {
             entityManager.persist(contract);
             entityManager.flush();
         }
-        List<HandOverAssets> handOverAssets = new ArrayList<>();
-        request.getBasicAssets().forEach(assets -> handOverAssets.add(
-                HandOverAssets.builder()
-                        .contractId(contract.getId())
-                        .assetId(assets.getAssetsId())
-                        .quantity(assets.getNumberOfAsset())
-                        .dateOfDelivery(contract.getStartDate())
-                        .build()));
-        assetsRepo.saveAll(handOverAssets);
+        if (!request.getHandOverGeneralServices().isEmpty()) {
+            List<HandOverAssets> handOverAssets = new ArrayList<>();
+            request.getBasicAssets().forEach(assets -> handOverAssets.add(
+                    HandOverAssets.builder()
+                            .contractId(contract.getId())
+                            .assetId(assets.getAssetsId())
+                            .quantity(assets.getNumberOfAsset())
+                            .status(assets.getHandOverAssetStatus())
+                            .dateOfDelivery(contract.getStartDate())
+                            .build()));
+            assetsRepo.saveAll(handOverAssets);
+            assetsRepo.saveAll(assetUpdateQuantity(request, contract.getId()));
+        }
 
-        List<HandOverGeneralService> handOverGeneralServices = new ArrayList<>();
-        request.getHandOverGeneralServices().forEach(service ->
+        if (!request.getHandOverGeneralServices().isEmpty()) {
+            List<HandOverGeneralService> handOverGeneralServices = new ArrayList<>();
+            request.getHandOverGeneralServices().forEach(service ->
                     handOverGeneralServices.add(
                             HandOverGeneralService.builder()
-                                    .handOverIndex(service.getHandOverIndex())
+                                    .handOverIndex(service.getHandOverServiceIndex())
                                     .contractId(contract.getId())
                                     .generalServiceId(service.getGeneralServiceId())
                                     .dateOfDelivery(contract.getStartDate())
                                     .build()
                     ));
-                generalServiceRepo.saveAll(handOverGeneralServices);
-        return request;
+            generalServiceRepo.saveAll(handOverGeneralServices);
+        }
 
+        if (!request.getMember().isEmpty()) {
+            List<Renters> members = new ArrayList<>();
+            request.getMember().forEach(member -> {
+                String gender = "Nam";
+                if (Boolean.FALSE.equals(request.getGender())) gender = "Nữ";
+                members.add(Renters.builder().
+                        renterFullName(request.getRenterName()).
+                        gender(gender).
+                        phoneNumber(request.getPhoneNumber()).
+                        email(request.getEmail()).
+                        identityNumber(request.getIdentityCard()).
+                        identity(Identity.builder().build()).
+                        represent(true).
+                        address(Address.builder().build()).build());
+            });
+            renterRepo.saveAll(members);
+        }
+        return request;
+    }
+
+    public List<HandOverAssets> assetUpdateQuantity(AddContractRequest addContractRequest, Long groupContractId) {
+        Map<Long, HandOverAssets> assetMap = new HashMap<>();
+        var groupGeneralAssets = assetsRepo.findAllByContractId(groupContractId);
+        groupGeneralAssets.forEach(groupAsset -> assetMap.put(groupAsset.getId(), groupAsset));
+        addContractRequest.getBasicAssets().forEach(roomAsset -> {
+            var assetToUpdateQuantity = assetMap.get(roomAsset.getAssetsId());
+            assetToUpdateQuantity.setQuantity(assetToUpdateQuantity.getQuantity() - roomAsset.getNumberOfAsset());
+        });
+        return new ArrayList<>(assetMap.values());
     }
 }

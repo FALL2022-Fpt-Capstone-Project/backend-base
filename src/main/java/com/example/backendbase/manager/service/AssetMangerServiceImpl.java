@@ -69,4 +69,9 @@ public class AssetMangerServiceImpl implements AssetMangerService{
     public List<AssetTypes> getAllAssetTypes() {
         return assetTypesRepo.findAll(Sort.by("id"));
     }
+
+    @Override
+    public List<HandOverAssetsDTO> updateHandOverAsset(Long contractId) {
+        return null;
+    }
 }

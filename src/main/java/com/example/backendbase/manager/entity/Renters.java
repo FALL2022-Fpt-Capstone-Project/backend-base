@@ -41,6 +41,12 @@ public class Renters {
     @JsonProperty("renter_identity_number")
     private String identityNumber;
 
+    @Column(name = "room_id")
+    private Long roomId;
+
+    @Column(name = "represent")
+    private Boolean represent;
+
     @Column(name = "created_by")
     @JsonIgnore
     private String createdBy = CurrentUserUtils.getCurrentUser();

@@ -99,8 +99,8 @@ public class AddContractRequest {
         @JsonProperty("asset_amount")
         private int numberOfAsset;
 
-        @JsonProperty("asset_date_delivery")
-        private String dateOfDelivery;
+        @JsonProperty("asset_status")
+        private Boolean handOverAssetStatus;
     }
 
     @Builder
@@ -112,7 +112,7 @@ public class AddContractRequest {
     public static class HandOverGeneralService {
         private Long generalServiceId;
 
-        private Integer handOverIndex;
+        private Integer handOverServiceIndex;
     }
 
     @Builder
