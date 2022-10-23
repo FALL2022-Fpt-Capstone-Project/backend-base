@@ -40,7 +40,7 @@ public class ContractNativeRepo {
         var listRoomContract = contractRepo.findAllByGroupId(request.getGroupId());
 
         //lấy thông tin hợp đồng của tòa
-        var groupContract = contractRepo.findByGroupIdAndContractTerm(request.getGroupId(), request.getContractTerm());
+        var groupContract = contractRepo.findByGroupIdAndContractTerm(request.getGroupId(), 0);
         var checkContractedRoom = listRoomContract.
                 stream().
                 filter(value -> Objects.equals(request.getRoomId(), value.getRoom())).
