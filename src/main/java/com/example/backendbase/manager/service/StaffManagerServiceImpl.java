@@ -45,7 +45,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
 
         userToUpdateRole = userRepository.findById(staffId);
         if (!userToUpdateRole.isPresent()) throw new UsernameNotFoundException("AccountId Not Found!!");
-        if(Objects.isNull(changeRequest.getDeactivate())) changeRequest.setDeactivate(false);
+        if (Objects.isNull(changeRequest.getDeactivate())) changeRequest.setDeactivate(false);
         userToUpdateRole.get().setUsername(changeRequest.getUserName());
         userToUpdateRole.get().setGender(changeRequest.getGender());
         userToUpdateRole.get().setFullName(changeRequest.getFullName());
@@ -55,9 +55,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
         userToUpdateRole.get().setIsDeactive(changeRequest.getDeactivate());
         userToUpdateRole.get().getAddress().setMoreDetails(changeRequest.getMoreDetails());
         userToUpdateRole.get().setPermission(ParseUtils.parseIntArrayToString(changeRequest.getPermission()));
-        if (!Objects.isNull(changeRequest.getRole())) {
-            userToUpdateRole.get().setRoles(roleChecker(changeRequest.getRole()));
-        }
+        userToUpdateRole.get().setRoles(roleChecker(changeRequest.getRole()));
         var afterUpdate = userRepository.save(userToUpdateRole.get());
         List<User> users = new ArrayList<>();
         users.add(afterUpdate);
@@ -202,7 +200,7 @@ public class StaffManagerServiceImpl implements StaffManagerService {
     public Set<Role> roleChecker(Set<String> strRoles) {
         Set<Role> roles = new HashSet<>();
         strRoles.forEach(role -> {
-            switch (role) {
+            switch (role.toLowerCase()) {
                 case "admin":
                     Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));

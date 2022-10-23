@@ -28,6 +28,7 @@ public class AddAssistantAccountResponse {
     @JsonProperty("created_date")
     private Timestamp createdDate;
 
+    @JsonProperty("role")
     private Set<String> role;
 
     @JsonProperty("address_city")

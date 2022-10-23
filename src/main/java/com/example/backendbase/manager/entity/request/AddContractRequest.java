@@ -102,10 +102,10 @@ public class AddContractRequest {
         @JsonProperty("asset_additional_type")
         private Long assetsAdditionalType;
 
-        @JsonProperty("asset_amount")
+        @JsonProperty("hand_over_asset_quantity")
         private int numberOfAsset;
 
-        @JsonProperty("asset_status")
+        @JsonProperty("hand_over_asset_status")
         private Boolean handOverAssetStatus;
     }
 

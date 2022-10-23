@@ -11,19 +11,15 @@ import java.text.SimpleDateFormat;
 @UtilityClass
 public class TimeUtils {
 
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static String showTimestamp(Timestamp timestamp) {
         return TIME_FORMAT.format(timestamp);
     }
 
     public static Timestamp getCurrentTime() {
-        Instant i = Instant.now(Clock.system(ZoneId.of("Asia/Ho_Chi_Minh")));
-        return Timestamp.from(i.atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toInstant());
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getCurrentTime());
+        Instant i = Instant.now();
+        return Timestamp.from(i);
     }
     @SneakyThrows
     public static Timestamp parseToTimestamp(String time) {
