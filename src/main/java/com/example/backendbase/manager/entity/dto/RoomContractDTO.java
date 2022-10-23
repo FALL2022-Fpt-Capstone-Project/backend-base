@@ -18,5 +18,5 @@ public class RoomContractDTO extends Contracts {
 
     private List<HandOverAssetsDTO> listHandOverAssets;
 
-    private List<Renters> renters;
+    private List<Renters> listRenter;
 }
