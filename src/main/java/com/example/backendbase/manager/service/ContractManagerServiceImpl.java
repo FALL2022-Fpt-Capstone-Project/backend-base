@@ -5,6 +5,7 @@ import com.example.backendbase.manager.constant.ManagerConstant;
 import com.example.backendbase.manager.entity.Contracts;
 import com.example.backendbase.manager.entity.request.AddContractRequest;
 import com.example.backendbase.manager.entity.response.ContractResponse;
+import com.example.backendbase.manager.entity.response.NumberOfContractResponse;
 import com.example.backendbase.manager.exception.ManagerException;
 import com.example.backendbase.manager.repo.ContractRepo;
 import com.example.backendbase.manager.repo.native_repo.ContractNativeRepo;
@@ -45,34 +46,59 @@ public class ContractManagerServiceImpl implements ContractManagerService {
     }
 
     @Override
-    public List<Contracts> getAllContractWithFilter(String condition, Integer buidingId) {
-        var listContract = contractRepo.findAllByGroupId(buidingId.longValue());
-        ArrayList<Contracts> contracts = new ArrayList<>();
+    public List<ContractResponse> getAllContractWithFilter(String condition, String duration, Long groupId) {
+        int durationTime = Integer.parseInt(duration);
+        var listContract = contractRepo.findAllByGroupIdAndContractTerm(groupId, 1);
+        List<ContractResponse> contractResponses = new ArrayList<>();
 
         LocalDateTime now = LocalDateTime.now();
 
-
         if (Objects.isNull(condition)) {
-            return contractRepo.findAllByGroupIdAndContractTerm(buidingId.longValue(), 1);
+            listContract.forEach(value -> contractResponses.add(buildContractResponse(value)));
+            return contractResponses;
         }
+
         if (condition.equals(ManagerConstant.EXPIRED_CONTRACT)) {
             listContract.forEach(value -> {
                 if (value.getEndDate().compareTo(TimeUtils.getCurrentTime()) < 0) {
-                    contracts.add(value);
+                    contractResponses.add(buildContractResponse(value));
                 }
             });
-            return contracts;
+            return contractResponses;
         }
+
         if (condition.equals(ManagerConstant.ALMOST_EXPIRED_CONTRACT)) {
-            Timestamp conditionToCompare = TimeUtils.parseToTimestamp(now.plusMonths(3));
-            return contractRepo.findAllByAlmostExpired(TimeUtils.parseToTimestamp(now), conditionToCompare);
+            Timestamp conditionToCompare = TimeUtils.parseToTimestamp(now.plusMonths(durationTime));
+            contractRepo
+                    .findAllByAlmostExpired(TimeUtils.parseToTimestamp(now), conditionToCompare, groupId)
+                    .forEach(contract1 -> contractResponses.add(buildContractResponse(contract1)));
+            return contractResponses;
         }
+
         if (condition.equals(ManagerConstant.LATEST_CONTRACT)) {
-            Timestamp conditionToCompare = TimeUtils.parseToTimestamp(now.minusMonths(3));
-            return contractRepo.findAllByLatest(conditionToCompare, TimeUtils.parseToTimestamp(now));
+            Timestamp conditionToCompare = TimeUtils.parseToTimestamp(now.minusMonths(durationTime));
+            contractRepo
+                    .findAllByLatest(conditionToCompare, TimeUtils.parseToTimestamp(now), groupId)
+                    .forEach(contract2 -> contractResponses.add(buildContractResponse(contract2)));
+            return contractResponses;
         }
-        return contractRepo.findAllByGroupId(buidingId.longValue());
+
+        return contractResponses;
     }
+
+    public ContractResponse buildContractResponse(Contracts contracts) {
+        ContractResponse contractResponse = new ContractResponse();
+        var renters = renterRepo.findById(contracts.getRenters()).get();
+        contractResponse.setRepresentRenterName(renters.getRenterFullName());
+        contractResponse.setContractName(contracts.getContractName());
+        contractResponse.setDeposit(contracts.getDeposit());
+        contractResponse.setPrice(contracts.getPrice());
+        contractResponse.setStartDate(contracts.getStartDate());
+        contractResponse.setEndDate(contracts.getEndDate());
+        contractResponse.setIsDisable(contracts.getIsDisable());
+        return contractResponse;
+    }
+
 
     @Override
     public ContractResponse getContractById(Long id) {
@@ -82,5 +108,29 @@ public class ContractManagerServiceImpl implements ContractManagerService {
     @Override
     public List<ContractResponse> searchFullTextContract(String condition) {
         return null;
+    }
+
+    @Override
+
+    public NumberOfContractResponse getNumberOfContract(String filter, Long id) {
+        int duration = Integer.parseInt(filter);
+        LocalDateTime now = LocalDateTime.now();
+
+        Timestamp almostExpiredTime = TimeUtils.parseToTimestamp(LocalDateTime.now().plusMonths(duration));
+        Integer totalAlmostExpired =
+                contractRepo.findAllByAlmostExpired(TimeUtils.parseToTimestamp(now), almostExpiredTime, id).size();
+
+
+        Timestamp latestTime = TimeUtils.parseToTimestamp(now.minusMonths(3));
+        Integer totalLatest = contractRepo.findAllByLatest(latestTime, TimeUtils.parseToTimestamp(now), id).size();
+
+        Integer totalExpired =
+                contractRepo.findAllExpriedContract(TimeUtils.parseToTimestamp(now), id).size();
+
+        return NumberOfContractResponse.builder()
+                .duration(duration)
+                .expiredContract(totalExpired)
+                .almostExpiredContract(totalAlmostExpired)
+                .latestContract(totalLatest).build();
     }
 }

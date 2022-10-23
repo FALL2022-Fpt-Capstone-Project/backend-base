@@ -17,11 +17,16 @@ public interface ContractRepo extends JpaRepository<Contracts, Long> {
 
     Contracts findByGroupId(Long id);
 
-    @Query("SELECT c FROM Contracts c WHERE c.endDate BETWEEN :now AND :condition")
+    @Query("SELECT c FROM Contracts c WHERE c.endDate BETWEEN :now AND :condition AND c.contractTerm = 0 AND c.groupId = :groupId")
     List<Contracts> findAllByAlmostExpired(@Param("now") Timestamp now,
-                                           @Param("condition") Timestamp condition);
+                                           @Param("condition") Timestamp condition,
+                                           @Param("groupId") Long id);
 
-    @Query("SELECT c FROM Contracts c WHERE c.startDate BETWEEN :now AND :condition")
+    @Query("SELECT c FROM Contracts c WHERE c.startDate BETWEEN :now AND :condition AND c.contractTerm = 0 AND c.groupId = :groupId")
     List<Contracts> findAllByLatest(@Param("now") Timestamp now,
-                                    @Param("condition") Timestamp condition);
+                                    @Param("condition") Timestamp condition,
+                                    @Param("groupId") Long id);
+
+    @Query("SELECT c FROM Contracts c WHERE c.endDate < :now  AND c.contractTerm = 0 AND c.groupId = :groupId")
+    List<Contracts> findAllExpriedContract(@Param("now") Timestamp now, @Param("groupId") Long id);
 }

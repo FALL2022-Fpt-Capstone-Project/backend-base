@@ -21,13 +21,20 @@ public class ContractController {
 
     @GetMapping("/get-contract/{id}")
     public ResponseEntity<Object> getContract(@RequestParam(name = "filter", required = false) String filter,
-                                              @PathVariable Integer id) {
-        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, id));
+                                              @RequestParam(name = "duration", defaultValue = "1", required = false) String duration,
+                                              @PathVariable Long id) {
+        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, duration, id));
     }
 
     @GetMapping("/get-contract/rooms/{id}")
     public ResponseEntity<Object> getRoomContract(@RequestParam(name = "filter", required = false) String filter,
-                                                  @PathVariable Integer id) {
-        return ResponseUtils.httpResponse(contractManagerService.getAllContractWithFilter(filter, id));
+                                                  @PathVariable Long id) {
+        return null;
+    }
+
+    @GetMapping("/statistical/get-contract/{id}")
+    public ResponseEntity<Object> getNumberContractByDuration(@RequestParam(name = "duration", required = false) String duration,
+                                                              @PathVariable Long id) {
+        return ResponseUtils.httpResponse(contractManagerService.getNumberOfContract(duration, id));
     }
 }
