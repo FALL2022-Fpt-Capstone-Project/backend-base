@@ -28,6 +28,8 @@ public class ContractNativeRepo {
     private final HandOverGeneralServiceRepo generalServiceRepo;
     private final BasicAssetsRepo basicAssetsRepo;
 
+    private final RoomsRepo roomsRepo;
+
     @Transactional
     public AddContractRequest addNewContract(AddContractRequest request) throws ManagerException {
         var contract = new Contracts();
@@ -73,6 +75,10 @@ public class ContractNativeRepo {
             entityManager.persist(contract);
             entityManager.flush();
         }
+        var roomToAddContract = roomsRepo.findById(request.getRoomId()).get();
+        roomToAddContract.setContracts(contract.getId());
+        roomsRepo.save(roomToAddContract);
+
         if (!request.getHandOverGeneralServices().isEmpty()) {
             List<HandOverAssets> handOverAssets = new ArrayList<>();
 

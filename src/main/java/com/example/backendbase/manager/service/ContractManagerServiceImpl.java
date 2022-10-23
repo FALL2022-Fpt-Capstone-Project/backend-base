@@ -53,7 +53,7 @@ public class ContractManagerServiceImpl implements ContractManagerService {
 
 
         if (Objects.isNull(condition)) {
-            return contractRepo.findAllByGroupId(buidingId.longValue());
+            return contractRepo.findAllByGroupIdAndContractTerm(buidingId.longValue(), 1);
         }
         if (condition.equals(ManagerConstant.EXPIRED_CONTRACT)) {
             listContract.forEach(value -> {

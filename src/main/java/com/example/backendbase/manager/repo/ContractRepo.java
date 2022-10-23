@@ -13,6 +13,8 @@ public interface ContractRepo extends JpaRepository<Contracts, Long> {
 
     Contracts findByGroupIdAndContractTerm(Long id, Integer contractTerm);
 
+    List<Contracts> findAllByGroupIdAndContractTerm(Long id, Integer contractTerm);
+
     Contracts findByGroupId(Long id);
 
     @Query("SELECT c FROM Contracts c WHERE c.endDate BETWEEN :now AND :condition")
