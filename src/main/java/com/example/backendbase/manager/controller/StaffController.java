@@ -36,7 +36,6 @@ public class StaffController {
         return ResponseUtils.httpResponse(assistantAccManager.getAllListStaffAccount());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
     @GetMapping("/staff-account/{accountId}")
     public ResponseEntity<Object> getAccountById(@PathVariable(name = "accountId") Long id) {
         return ResponseUtils.httpResponse(assistantAccManager.getStaffAccountById(id));
