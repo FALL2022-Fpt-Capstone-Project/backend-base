@@ -65,6 +65,7 @@ public class UserServiceImpl implements IUserService {
         UserAuthenDetailsImpl userDetails = (UserAuthenDetailsImpl) authentication.getPrincipal();
 
         return LoginResponse.builder()
+                .accountId(principalUser.getId())
                 .token(jwtUtils.generateJwtCookie(userDetails).getValue())
                 .isDeactivate(loginUser.getIsDeactive())
                 .permission(ParseUtils.parseStringArrayToIntArray(loginUser.getPermission()))

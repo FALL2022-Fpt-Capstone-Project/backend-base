@@ -17,7 +17,7 @@ public class ServiceNativeRepo {
     private EntityManager entityManager;
 
     public List<GeneralServiceDTO> findAllGeneralServiceByContractId(Long id) {
-        String statement = "SELECT basic_service.service_name, service_type.service_type_name, general_service.service_price, general_service.contract_id, basic_service.service_show_name\n" +
+        String statement = "SELECT basic_service.service_name, service_type.service_type_name, general_service.service_price, general_service.contract_id, basic_service.service_show_name, general_service.general_service_id\n" +
                 "FROM manager_basic_service basic_service\n" +
                 "INNER JOIN\n" +
                 "manager_general_services general_service\n" +
@@ -32,14 +32,15 @@ public class ServiceNativeRepo {
         List<Object[]> resultList = query.getResultList();
 
         List<GeneralServiceDTO> result = new ArrayList<>();
-        resultList.forEach(record ->{
-            GeneralServiceDTO handOverAssetsDTO = new GeneralServiceDTO();
-            handOverAssetsDTO.setName((String) record[0]);
-            handOverAssetsDTO.setServiceTypeName((String) record[1]);
-            handOverAssetsDTO.setServicePrice((Double) record[2]);
-            handOverAssetsDTO.setConntractId(((BigInteger)record[3]).longValue());
-            handOverAssetsDTO.setServiceShowName((String) record[4]);
-            result.add(handOverAssetsDTO);
+        resultList.forEach(record -> {
+            GeneralServiceDTO handOverServiceDTO = new GeneralServiceDTO();
+            handOverServiceDTO.setId(((BigInteger) record[5]).longValue());
+            handOverServiceDTO.setName((String) record[0]);
+            handOverServiceDTO.setServiceTypeName((String) record[1]);
+            handOverServiceDTO.setServicePrice((Double) record[2]);
+            handOverServiceDTO.setConntractId(((BigInteger) record[3]).longValue());
+            handOverServiceDTO.setServiceShowName((String) record[4]);
+            result.add(handOverServiceDTO);
         });
 
 

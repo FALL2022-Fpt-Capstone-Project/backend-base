@@ -32,9 +32,11 @@ public class Rooms {
     private Integer limitPeople;
 
     @Column(name = "room_current_water_index")
+    @JsonProperty("room_current_water_index")
     private Integer currentWaterIndex;
 
     @Column(name = "room_current_electric_index")
+    @JsonProperty("room_current_electric_index")
     private Integer currentElectricIndex;
 
     @Column(name = "created_by")
