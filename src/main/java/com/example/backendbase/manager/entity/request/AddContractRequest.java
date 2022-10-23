@@ -77,7 +77,7 @@ public class AddContractRequest {
     private Long groupId;
     //--------------------------
 
-    @JsonProperty("list_assets")
+    @JsonProperty("list_hand_over_assets")
     private List<HandOverAssetsRequest> basicAssets;
 
     @JsonProperty("list_general_service")

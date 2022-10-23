@@ -154,7 +154,7 @@ public class ContractNativeRepo {
     public List<HandOverAssets> assetUpdateQuantity(AddContractRequest addContractRequest, Long groupContractId) {
         Map<Long, HandOverAssets> assetMap = new HashMap<>();
         var groupGeneralAssets = assetsRepo.findAllByContractId(groupContractId);
-        groupGeneralAssets.forEach(groupAsset -> assetMap.put(groupAsset.getId(), groupAsset));
+        groupGeneralAssets.forEach(groupAsset -> assetMap.put(groupAsset.getAssetId(), groupAsset));
         addContractRequest.getBasicAssets().forEach(roomAsset -> {
             var assetToUpdateQuantity = assetMap.get(roomAsset.getAssetsId());
             assetToUpdateQuantity.setQuantity(assetToUpdateQuantity.getQuantity() - roomAsset.getNumberOfAsset());
