@@ -96,6 +96,12 @@ public class AddContractRequest {
         @JsonProperty("asset_id")
         private Long assetsId;
 
+        @JsonProperty("asset_additional_name")
+        private String assetsAdditionalName;
+
+        @JsonProperty("asset_additional_type")
+        private Long assetsAdditionalType;
+
         @JsonProperty("asset_amount")
         private int numberOfAsset;
 
