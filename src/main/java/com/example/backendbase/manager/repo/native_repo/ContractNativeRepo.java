@@ -85,7 +85,7 @@ public class ContractNativeRepo {
             List<HandOverAssets> additionalAssets = new ArrayList<>();
             request.getBasicAssets().forEach(assets -> {
                 //Add thêm tài sản không thuộc tòa
-                if (!Objects.isNull(assets.getAssetsAdditionalName())) {
+                if (assets.getAssetsId() < 0) {
                     //tài sản cơ bản
                     Long basicAssetsId = basicAssetsRepo.save(BasicAssets.builder()
                             .name(assets.getAssetsAdditionalName())
