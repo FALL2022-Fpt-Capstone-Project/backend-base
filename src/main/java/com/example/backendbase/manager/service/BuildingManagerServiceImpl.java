@@ -82,7 +82,7 @@ public class BuildingManagerServiceImpl implements BuildingManagerService {
     @SneakyThrows
     public RoomGroupResponse getGroupById(Long groupId) {
         var roomGroup = groupRepo.findById(groupId).orElseThrow(() -> new ManagerException("Không tìm thấy group theo id"));
-        var groupContract = contractRepo.findByGroupId(groupId);
+        var groupContract = contractRepo.findByGroupIdAndContractTerm(groupId, 0);
         var roomGroupAddress = addressRepo.findById(roomGroup.getAddress()).orElse(new Address());
         var roomListByGroup = roomsRepo.findAllByRoomGroups(groupId);
 
