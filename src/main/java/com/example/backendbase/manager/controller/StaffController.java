@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/manager/account")
 @RestController
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+
 public class StaffController {
     private final StaffManagerService assistantAccManager;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/list-staff-account")
     public ResponseEntity<Object> getListAccountByFilter(@RequestParam(name = "order", required = false, defaultValue = "latest") String order,
                                                  @RequestParam(name = "role", required = false, defaultValue = "all") String roles,
@@ -29,27 +30,32 @@ public class StaffController {
         return ResponseUtils.httpResponse(assistantAccManager.getListAssistantAccount(order, roles, Integer.parseInt(deactivate), permission, startDate, endDate));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/list-all-staff-account")
     public ResponseEntity<Object> getListAccount() {
         return ResponseUtils.httpResponse(assistantAccManager.getAllListStaffAccount());
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
     @GetMapping("/staff-account/{accountId}")
     public ResponseEntity<Object> getAccountById(@PathVariable(name = "accountId") Long id) {
         return ResponseUtils.httpResponse(assistantAccManager.getStaffAccountById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add-staff-account")
     public ResponseEntity<Object> addAssistantAccount(@RequestBody RegisterRequest registerRequest) {
         return ResponseUtils.httpResponse(assistantAccManager.addNewAssistantAccount(registerRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update-account/{staffId}")
     public ResponseEntity<Object> updateAccount(@RequestBody ModifyAccountRequest request,
                                                 @PathVariable(name = "staffId") Long staffId) {
         return ResponseUtils.httpResponse(assistantAccManager.updateAccount(request, staffId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/change-pass-account/{id}")
     public ResponseEntity<Object> changePasswordAccount(@PathVariable(name = "id") Long id, @RequestBody ChangePassRequest request) {
         return ResponseUtils.httpResponse(assistantAccManager.changePassword(id, request));

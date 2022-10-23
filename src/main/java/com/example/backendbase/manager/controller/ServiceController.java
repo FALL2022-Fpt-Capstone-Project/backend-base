@@ -16,7 +16,7 @@ public class ServiceController {
     private final GeneralServiceManagerService generalServiceManagerService;
 
     @GetMapping("/general-service/{contractId}")
-    public ResponseEntity<Object> getGeneralSericeByContractId(@PathVariable Long contractId){
+    public ResponseEntity<Object> getGeneralServiceByContractId(@PathVariable Long contractId){
         return ResponseUtils.httpResponse(generalServiceManagerService.getAllGeneralServiceByContractId(contractId));
     }
 }
