@@ -27,6 +27,6 @@ public interface ContractRepo extends JpaRepository<Contracts, Long> {
                                     @Param("condition") Timestamp condition,
                                     @Param("groupId") Long id);
 
-    @Query("SELECT c FROM Contracts c WHERE c.endDate < :now  AND c.contractTerm = 0 AND c.groupId = :groupId")
+    @Query("SELECT c FROM Contracts c WHERE c.endDate < :now OR c.isDisable = TRUE AND c.contractTerm = 0 AND c.groupId = :groupId")
     List<Contracts> findAllExpriedContract(@Param("now") Timestamp now, @Param("groupId") Long id);
 }

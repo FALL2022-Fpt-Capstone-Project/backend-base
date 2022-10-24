@@ -33,7 +33,7 @@ public class ContractController {
     }
 
     @GetMapping("/statistical/get-contract/{id}")
-    public ResponseEntity<Object> getNumberContractByDuration(@RequestParam(name = "duration", required = false) String duration,
+    public ResponseEntity<Object> getNumberContractByDuration(@RequestParam(name = "duration", required = false, defaultValue = "1") String duration,
                                                               @PathVariable Long id) {
         return ResponseUtils.httpResponse(contractManagerService.getNumberOfContract(duration, id));
     }
