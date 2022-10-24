@@ -91,7 +91,7 @@ public class ContractNativeRepo {
                             .name(assets.getAssetsAdditionalName())
                             .build()).getId();
 
-                    //tài sản chung cho tòa để quản lý
+                    //tài sản chung cho tòa để quản lý (ban giao cho toa)
                     additionalAssets.add(HandOverAssets.builder()
                             .contractId(groupContract.getId())
                             .quantity(assets.getNumberOfAsset())
@@ -108,19 +108,19 @@ public class ContractNativeRepo {
                             .build());
 
                     handOverAssets.addAll(additionalAssets);
+                } else {
+                    handOverAssets.add(
+                            HandOverAssets.builder()
+                                    .contractId(contract.getId())
+                                    .assetId(assets.getAssetsId())
+                                    .quantity(assets.getNumberOfAsset())
+                                    .status(assets.getHandOverAssetStatus())
+                                    .dateOfDelivery(contract.getStartDate())
+                                    .build());
                 }
-
-                handOverAssets.add(
-                        HandOverAssets.builder()
-                                .contractId(contract.getId())
-                                .assetId(assets.getAssetsId())
-                                .quantity(assets.getNumberOfAsset())
-                                .status(assets.getHandOverAssetStatus())
-                                .dateOfDelivery(contract.getStartDate())
-                                .build());
             });
             assetsRepo.saveAll(handOverAssets);
-            assetsRepo.saveAll(assetUpdateQuantity(request, contract.getId()));
+            assetsRepo.saveAll(assetUpdateQuantity(handOverAssets, groupContract.getGroupId()));
         }
 
         if (!request.getHandOverGeneralServices().isEmpty()) {
@@ -157,14 +157,16 @@ public class ContractNativeRepo {
         return request;
     }
 
-    public List<HandOverAssets> assetUpdateQuantity(AddContractRequest addContractRequest, Long groupContractId) {
+    public List<HandOverAssets> assetUpdateQuantity(List<HandOverAssets> listHandOverAsset, Long groupContractId) {
         Map<Long, HandOverAssets> assetMap = new HashMap<>();
-        var groupGeneralAssets = assetsRepo.findAllByContractId(groupContractId);
-        groupGeneralAssets.forEach(groupAsset -> assetMap.put(groupAsset.getAssetId(), groupAsset));
-        addContractRequest.getBasicAssets().forEach(roomAsset -> {
-            var assetToUpdateQuantity = assetMap.get(roomAsset.getAssetsId());
-            assetToUpdateQuantity.setQuantity(assetToUpdateQuantity.getQuantity() - roomAsset.getNumberOfAsset());
+        var groupGeneralAssetsOfGroup   = assetsRepo.findAllByContractId(groupContractId);
+        groupGeneralAssetsOfGroup.forEach(groupAsset -> assetMap.put(groupAsset.getAssetId(), groupAsset));
+
+        listHandOverAsset.forEach(roomAsset -> {
+            var assetToUpdateQuantity = assetMap.get(roomAsset.getAssetId());
+            assetToUpdateQuantity.setQuantity(assetToUpdateQuantity.getQuantity() - roomAsset.getQuantity());
         });
+
         return new ArrayList<>(assetMap.values());
     }
 }
