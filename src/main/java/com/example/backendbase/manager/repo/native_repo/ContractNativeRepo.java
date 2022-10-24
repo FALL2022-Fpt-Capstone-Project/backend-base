@@ -119,8 +119,8 @@ public class ContractNativeRepo {
                                     .build());
                 }
             });
-            assetsRepo.saveAll(handOverAssets);
-            assetsRepo.saveAll(assetUpdateQuantity(handOverAssets, groupContract.getGroupId()));
+            assetsRepo.saveAll(handOverAssets); // vừa add bàn giao cho phòng và add tài sản add thêm cho phòng vào tòa
+            assetsRepo.saveAll(assetUpdateQuantity(handOverAssets, groupContract.getId()));
         }
 
         if (!request.getHandOverGeneralServices().isEmpty()) {

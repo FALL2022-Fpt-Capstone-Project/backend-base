@@ -34,11 +34,11 @@ public class TimeUtils {
                 return new java.sql.Timestamp(parsedDate.getTime());
             } catch (Exception ex) {
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     Date parsedDate = dateFormat.parse(time);
                     return new java.sql.Timestamp(parsedDate.getTime());
                 } catch (Exception exc) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                     Date parsedDate = dateFormat.parse(time);
                     return new java.sql.Timestamp(parsedDate.getTime());
                 }
