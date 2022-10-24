@@ -60,7 +60,7 @@ public class ContractManagerServiceImpl implements ContractManagerService {
 
         if (condition.equals(ManagerConstant.EXPIRED_CONTRACT)) {
             listContract.forEach(value -> {
-                if (value.getEndDate().compareTo(TimeUtils.getCurrentTime()) < 0) {
+                if (value.getEndDate().compareTo(TimeUtils.getCurrentTime()) < 0 || value.getIsDisable()) {
                     contractResponses.add(buildContractResponse(value));
                 }
             });
