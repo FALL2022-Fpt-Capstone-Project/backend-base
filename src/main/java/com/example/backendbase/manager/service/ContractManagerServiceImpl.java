@@ -125,7 +125,7 @@ public class ContractManagerServiceImpl implements ContractManagerService {
         Integer totalLatest = contractRepo.findAllByLatest(latestTime, TimeUtils.parseToTimestamp(now), id).size();
 
         Integer totalExpired =
-                contractRepo.findAllExpriedContract(TimeUtils.parseToTimestamp(now), id).size();
+                contractRepo.findAllExpiredContract(TimeUtils.parseToTimestamp(now), id).size();
 
         return NumberOfContractResponse.builder()
                 .duration(duration)
