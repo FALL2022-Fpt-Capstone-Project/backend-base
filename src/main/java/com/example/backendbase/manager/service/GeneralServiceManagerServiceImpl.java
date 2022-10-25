@@ -52,6 +52,7 @@ public class GeneralServiceManagerServiceImpl implements GeneralServiceManagerSe
         var generalService = generalServiceRepo.findById(generalServiceId).get();
         generalService.setServiceType(addNewGeneralServiceRequest.getGeneralServiceType());
         generalService.setServicePrice(addNewGeneralServiceRequest.getGeneralServicePrice());
+        generalService.setServiceId(addNewGeneralServiceRequest.getServiceId());
         return generalServiceRepo.save(generalService);
     }
 }
