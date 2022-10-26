@@ -23,6 +23,8 @@ public class ServiceNativeRepo {
                 "       general_service.contract_id,\n" +
                 "       basic_service.service_show_name,\n" +
                 "       general_service.service_type_id,\n" +
+                "       general_service.general_service_id, \n" +
+                "       general_service.note,\n" +
                 "       basic_service.service_id\n" +
                 "FROM manager_basic_service basic_service\n" +
                 "INNER JOIN\n" +
@@ -45,7 +47,9 @@ public class ServiceNativeRepo {
             handOverServiceDTO.setConntractId(((BigInteger) record[3]).longValue());
             handOverServiceDTO.setServiceShowName((String) record[4]);
             handOverServiceDTO.setServiceType(((BigInteger) record[5]).longValue());
-            handOverServiceDTO.setId(((Integer) record[6]).longValue());
+            handOverServiceDTO.setId(((BigInteger) record[6]).longValue());
+            handOverServiceDTO.setNote((String) record[7]);
+            handOverServiceDTO.setServiceId(((Integer) record[8]).longValue());
             result.add(handOverServiceDTO);
         });
         return result;
