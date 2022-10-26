@@ -43,6 +43,10 @@ public class GeneralService {
     @JsonProperty("service_price")
     private Double servicePrice;
 
+    @Column(name = "note")
+    @JsonProperty("note")
+    private String note;
+
     @Column(name = "created_by")
     @JsonIgnore
     private String createdBy = CurrentUserUtils.getCurrentUser();

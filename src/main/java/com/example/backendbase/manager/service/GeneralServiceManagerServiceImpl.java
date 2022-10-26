@@ -49,6 +49,7 @@ public class GeneralServiceManagerServiceImpl implements GeneralServiceManagerSe
                 .serviceType(request.getGeneralServiceType())
                 .servicePrice(request.getGeneralServicePrice())
                 .serviceId(request.getServiceId())
+                .note(request.getNote())
                 .conntractId(request.getContractId()).build());
     }
 
@@ -58,6 +59,7 @@ public class GeneralServiceManagerServiceImpl implements GeneralServiceManagerSe
         generalService.setServiceType(addNewGeneralServiceRequest.getGeneralServiceType());
         generalService.setServicePrice(addNewGeneralServiceRequest.getGeneralServicePrice());
         generalService.setServiceId(addNewGeneralServiceRequest.getServiceId());
+        generalService.setNote(addNewGeneralServiceRequest.getNote());
         return generalServiceRepo.save(generalService);
     }
 

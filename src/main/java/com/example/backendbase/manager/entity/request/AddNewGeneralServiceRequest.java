@@ -17,4 +17,6 @@ public class AddNewGeneralServiceRequest {
 
     private Long generalServiceType;
 
+    private String note;
+
 }
