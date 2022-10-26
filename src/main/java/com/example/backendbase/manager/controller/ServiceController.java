@@ -38,6 +38,11 @@ public class ServiceController {
         return ResponseUtils.httpResponse(generalServiceManagerService.addNewGeneralService(generalService));
     }
 
+    @PostMapping("/quick-add-service")
+    public ResponseEntity<Object> quickAddGeneralService(@RequestBody AddNewGeneralServiceRequest addNewGeneralServiceRequest) {
+        return ResponseUtils.httpResponse(generalServiceManagerService.quickAddGeneralService(addNewGeneralServiceRequest.getContractId()));
+    }
+
     @DeleteMapping("/delete-general-service/{generalServiceId}")
     public ResponseEntity<Object> deleteGeneralService(@PathVariable Long generalServiceId) {
         generalServiceManagerService.deleteGeneralService(generalServiceId);

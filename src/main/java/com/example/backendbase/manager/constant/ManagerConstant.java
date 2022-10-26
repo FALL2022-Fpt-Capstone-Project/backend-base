@@ -28,5 +28,24 @@ public interface ManagerConstant {
     Long TYPE_ANOTHER = 5L;
     Long TYPE_OFFICE = 6L;
 
+    //basic service
+    Long SERVICE_ELECTRIC = 1L;
+    Long SERVICE_WATER = 2L;
+    Long SERVICE_VEHICLES= 3L;
+    Long SERVICE_INTERNET = 4L;
+    Long SERVICE_CLEANING = 5L;
+    Long SERVICE_OTHER = 6L;
+
+    //service types
+    Long SERVICE_TYPE_METER = 1L;
+    Long SERVICE_TYPE_MONTH = 2L;
+    Long SERVICE_TYPE_PERSON = 3L;
+
+    //service default prices
+    Double ELECTRIC_DEFAULT_PRICE = 3500.0;
+    Double WATER_DEFAULT_PRICE = 30000.0;
+    Double INTERNET_DEFAULT_PRICE = 100000.0;
+    Double VEHICLES_DEFAULT_PRICE = 500000.0;
+
 
 }

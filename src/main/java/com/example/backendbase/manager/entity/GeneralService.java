@@ -21,6 +21,14 @@ import java.sql.Timestamp;
 @DynamicUpdate
 @DynamicInsert
 public class GeneralService {
+
+    public GeneralService(Long serviceId, Long contractId, Long serviceType, Double price) {
+        this.serviceId = serviceId;
+        this.conntractId = contractId;
+        this.serviceType = serviceType;
+        this.servicePrice = price;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "general_service_id")

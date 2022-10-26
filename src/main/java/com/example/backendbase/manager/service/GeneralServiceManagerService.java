@@ -22,4 +22,6 @@ public interface GeneralServiceManagerService{
     List<ServiceType> getServiceType();
 
     GeneralService getGeneralServiceById(Long generalServiceId);
+
+    List<GeneralService> quickAddGeneralService(Long contractId);
 }

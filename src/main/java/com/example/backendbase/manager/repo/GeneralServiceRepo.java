@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface GeneralServiceRepo extends JpaRepository<GeneralService, Long> {
+    List<GeneralService> findAllByConntractId(Long contractId);
 
 }
