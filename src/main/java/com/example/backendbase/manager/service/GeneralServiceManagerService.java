@@ -2,6 +2,7 @@ package com.example.backendbase.manager.service;
 
 import com.example.backendbase.manager.entity.BasicService;
 import com.example.backendbase.manager.entity.GeneralService;
+import com.example.backendbase.manager.entity.ServiceType;
 import com.example.backendbase.manager.entity.dto.GeneralServiceDTO;
 import com.example.backendbase.manager.entity.request.AddNewGeneralServiceRequest;
 
@@ -18,4 +19,7 @@ public interface GeneralServiceManagerService{
 
     GeneralService updateGeneralService(Long generalServiceId, AddNewGeneralServiceRequest addNewGeneralServiceRequest);
 
+    List<ServiceType> getServiceType();
+
+    GeneralService getGeneralServiceById(Long generalServiceId);
 }

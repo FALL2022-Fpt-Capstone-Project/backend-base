@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceController {
     private final GeneralServiceManagerService generalServiceManagerService;
 
-    @GetMapping("/general-service/{contractId}")
+    @GetMapping("/general-services/{contractId}")
     public ResponseEntity<Object> getGeneralServiceByContractId(@PathVariable Long contractId) {
         return ResponseUtils.httpResponse(generalServiceManagerService.getAllGeneralServiceByContractId(contractId));
     }
@@ -21,6 +21,16 @@ public class ServiceController {
     @GetMapping("/basic-service")
     public ResponseEntity<Object> getBasicService() {
         return ResponseUtils.httpResponse(generalServiceManagerService.getBasicService());
+    }
+
+    @GetMapping("/service-type")
+    public ResponseEntity<Object> getServiceType() {
+        return ResponseUtils.httpResponse(generalServiceManagerService.getServiceType());
+    }
+
+    @GetMapping("/general-service/{generalServiceId}")
+    public ResponseEntity<Object> getGeneralServiceById(@PathVariable Long generalServiceId) {
+        return ResponseUtils.httpResponse(generalServiceManagerService.getGeneralServiceById(generalServiceId));
     }
 
     @PostMapping("/add-general-service")
