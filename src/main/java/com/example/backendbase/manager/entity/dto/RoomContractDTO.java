@@ -17,7 +17,7 @@ import java.util.List;
 public class RoomContractDTO extends Contracts {
     private String renterName;
 
-    private List<GeneralServiceDTO> listHandOverServices;
+    private List<HandOverGeneralServiceDTO> listHandOverServices;
 
     private List<HandOverAssetsDTO> listHandOverAssets;
 

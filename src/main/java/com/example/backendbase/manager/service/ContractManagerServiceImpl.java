@@ -118,7 +118,7 @@ public class ContractManagerServiceImpl implements ContractManagerService {
         BeanUtils.copyProperties(contract, roomContractDTO);
         roomContractDTO.setRenterName(renterRepo.findById(contract.getRenters()).get().getRenterFullName());
         roomContractDTO.setListHandOverAssets(assetsNativeRepo.findHandOverAssetsByContractId(id));
-        roomContractDTO.setListHandOverServices(serviceNativeRepo.findAllGeneralServiceByContractId(id));
+        roomContractDTO.setListHandOverServices(serviceNativeRepo.findAllHandOverServiceByContractId(id));
         roomContractDTO.setListRenter(renterRepo.findAllByRoomId(contract.getRoom()));
         return roomContractDTO;
     }
