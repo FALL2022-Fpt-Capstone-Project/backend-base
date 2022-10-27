@@ -18,7 +18,7 @@ public interface ContractManagerService {
 
     List<ContractResponse> getAllContractWithFilter(String condition, String duration, Long id);
 
-    ContractResponse getContractById(Long id);
+    RoomContractDTO getContractById(Long id);
 
     List<ContractResponse> searchFullTextContract(String condition);
 

@@ -9,10 +9,13 @@ import com.example.backendbase.manager.entity.response.ContractResponse;
 import com.example.backendbase.manager.entity.response.NumberOfContractResponse;
 import com.example.backendbase.manager.exception.ManagerException;
 import com.example.backendbase.manager.repo.ContractRepo;
+import com.example.backendbase.manager.repo.native_repo.AssetsNativeRepo;
 import com.example.backendbase.manager.repo.native_repo.ContractNativeRepo;
 import com.example.backendbase.manager.repo.RenterRepo;
+import com.example.backendbase.manager.repo.native_repo.ServiceNativeRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -30,6 +33,10 @@ public class ContractManagerServiceImpl implements ContractManagerService {
     private final ContractRepo contractRepo;
 
     private final RenterRepo renterRepo;
+
+    private final AssetsNativeRepo assetsNativeRepo;
+
+    private final ServiceNativeRepo serviceNativeRepo;
 
     @Override
     public AddContractRequest addNewContract(AddContractRequest request) throws ManagerException {
@@ -105,8 +112,15 @@ public class ContractManagerServiceImpl implements ContractManagerService {
 
 
     @Override
-    public ContractResponse getContractById(Long id) {
-        return null;
+    public RoomContractDTO getContractById(Long id) {
+        var contract = contractRepo.findById(id).get();
+        RoomContractDTO roomContractDTO = new RoomContractDTO();
+        BeanUtils.copyProperties(contract, roomContractDTO);
+        roomContractDTO.setRenterName(renterRepo.findById(contract.getRenters()).get().getRenterFullName());
+        roomContractDTO.setListHandOverAssets(assetsNativeRepo.findHandOverAssetsByContractId(id));
+        roomContractDTO.setListHandOverServices(serviceNativeRepo.findAllGeneralServiceByContractId(id));
+        roomContractDTO.setListRenter(renterRepo.findAllByRoomId(contract.getRoom()));
+        return roomContractDTO;
     }
 
     @Override

@@ -68,10 +68,10 @@ public class ContractNativeRepo {
                     identityNumber(request.getIdentityCard()).
                     identity(Identity.builder().build()).
                     represent(true).
+                    roomId(request.getRoomId()).
                     address(Address.builder().build()).build()).getId();
             contract.setRenters(newRenterId);
             contract.setRoom(request.getRoomId());
-            contract.setRenters(newRenterId);
             entityManager.persist(contract);
             entityManager.flush();
         }
@@ -159,7 +159,7 @@ public class ContractNativeRepo {
 
     public List<HandOverAssets> assetUpdateQuantity(List<HandOverAssets> listHandOverAsset, Long groupContractId) {
         Map<Long, HandOverAssets> assetMap = new HashMap<>();
-        var groupGeneralAssetsOfGroup   = assetsRepo.findAllByContractId(groupContractId);
+        var groupGeneralAssetsOfGroup = assetsRepo.findAllByContractId(groupContractId);
         groupGeneralAssetsOfGroup.forEach(groupAsset -> assetMap.put(groupAsset.getAssetId(), groupAsset));
 
         listHandOverAsset.forEach(roomAsset -> {
