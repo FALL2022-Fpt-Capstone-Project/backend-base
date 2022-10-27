@@ -3,6 +3,7 @@ package com.example.backendbase.manager.service;
 import com.example.backendbase.common.utils.TimeUtils;
 import com.example.backendbase.manager.constant.ManagerConstant;
 import com.example.backendbase.manager.entity.Contracts;
+import com.example.backendbase.manager.entity.dto.RoomContractDTO;
 import com.example.backendbase.manager.entity.request.AddContractRequest;
 import com.example.backendbase.manager.entity.response.ContractResponse;
 import com.example.backendbase.manager.entity.response.NumberOfContractResponse;
@@ -82,13 +83,16 @@ public class ContractManagerServiceImpl implements ContractManagerService {
                     .forEach(contract2 -> contractResponses.add(buildContractResponse(contract2)));
             return contractResponses;
         }
-
+        contractRepo
+                .findAllByGroupIdAndContractTermAndAndIsDisable(groupId, 1, false)
+                .forEach(contracts -> contractResponses.add(buildContractResponse(contracts)));
         return contractResponses;
     }
 
     public ContractResponse buildContractResponse(Contracts contracts) {
         ContractResponse contractResponse = new ContractResponse();
         var renters = renterRepo.findById(contracts.getRenters()).get();
+        contractResponse.setId(contracts.getId());
         contractResponse.setRepresentRenterName(renters.getRenterFullName());
         contractResponse.setContractName(contracts.getContractName());
         contractResponse.setDeposit(contracts.getDeposit());
@@ -132,5 +136,10 @@ public class ContractManagerServiceImpl implements ContractManagerService {
                 .expiredContract(totalExpired)
                 .almostExpiredContract(totalAlmostExpired)
                 .latestContract(totalLatest).build();
+    }
+
+    @Override
+    public RoomContractDTO getRoomContract(Long id) {
+        return null;
     }
 }

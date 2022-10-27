@@ -45,7 +45,7 @@ public interface ManagerConstant {
     Double ELECTRIC_DEFAULT_PRICE = 3500.0;
     Double WATER_DEFAULT_PRICE = 30000.0;
     Double INTERNET_DEFAULT_PRICE = 100000.0;
-    Double VEHICLES_DEFAULT_PRICE = 500000.0;
+    Double VEHICLES_DEFAULT_PRICE = 50000.0;
 
 
 }

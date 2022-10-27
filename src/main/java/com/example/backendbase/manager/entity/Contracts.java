@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 public class Contracts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("contract_id")
     private Long id;
 
     @Column(name = "contract_name")

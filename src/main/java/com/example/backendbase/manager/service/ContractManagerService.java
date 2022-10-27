@@ -1,6 +1,7 @@
 package com.example.backendbase.manager.service;
 
 import com.example.backendbase.manager.entity.Contracts;
+import com.example.backendbase.manager.entity.dto.RoomContractDTO;
 import com.example.backendbase.manager.entity.request.AddContractRequest;
 import com.example.backendbase.manager.entity.response.ContractResponse;
 import com.example.backendbase.manager.entity.response.NumberOfContractResponse;
@@ -22,4 +23,6 @@ public interface ContractManagerService {
     List<ContractResponse> searchFullTextContract(String condition);
 
     NumberOfContractResponse getNumberOfContract(String filter, Long id);
+
+    RoomContractDTO getRoomContract(Long id);
 }

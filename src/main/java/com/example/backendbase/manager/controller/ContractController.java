@@ -27,9 +27,8 @@ public class ContractController {
     }
 
     @GetMapping("/get-contract/rooms/{id}")
-    public ResponseEntity<Object> getRoomContract(@RequestParam(name = "filter", required = false) String filter,
-                                                  @PathVariable Long id) {
-        return null;
+    public ResponseEntity<Object> getRoomContract(@PathVariable Long id) {
+        return ResponseUtils.httpResponse(contractManagerService.getContractById(id));
     }
 
     @GetMapping("/statistical/get-contract/{id}")
