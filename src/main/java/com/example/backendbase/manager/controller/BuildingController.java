@@ -20,11 +20,6 @@ public class BuildingController {
         return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.addNewBuilding(request));
     }
 
-    @GetMapping("/get-list-building")
-    public ResponseEntity<Object> getListBuilding(){
-        return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.getAllBuilding());
-    }
-
     @PostMapping("/update-building-information")
     public ResponseEntity<Object> updateBuilding(@RequestBody UpdateBuildingRequest request){
         return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.updateBuilding(request));
@@ -36,8 +31,13 @@ public class BuildingController {
     }
 
     @GetMapping("/get-group/{groupId}")
-    public ResponseEntity<Object> getGroupById(@PathVariable() Long groupId){
+    public ResponseEntity<Object> getGroupById(@PathVariable Long groupId){
         return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.getGroupById(groupId));
+    }
+
+    @GetMapping("/get-group")
+    public ResponseEntity<Object> getAllGroup(){
+        return ResponseUtils.httpResponse(buildingManagerServiceServiceImpl.getAllBuilding());
     }
 
 }

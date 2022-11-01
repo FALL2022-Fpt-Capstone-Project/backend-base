@@ -3,6 +3,7 @@ package com.example.backendbase.manager.service;
 import com.example.backendbase.common.utils.TimeUtils;
 import com.example.backendbase.manager.entity.Address;
 import com.example.backendbase.manager.entity.Buildings;
+import com.example.backendbase.manager.entity.Contracts;
 import com.example.backendbase.manager.entity.request.AddBuildingRequest;
 import com.example.backendbase.manager.entity.request.UpdateBuildingRequest;
 import com.example.backendbase.manager.entity.response.ListAllBuildingResponse;
@@ -102,25 +103,24 @@ public class BuildingManagerServiceImpl implements BuildingManagerService {
     }
 
     @Override
-    public List<ListAllBuildingResponse> getAllBuilding() {
-        var listBuilding = buildingRepo.getAllBuilding();
-        List<ListAllBuildingResponse> listAllBuildingResponses = new ArrayList<>();
-        listBuilding.forEach(
-                e -> {
-                    listAllBuildingResponses.add(ListAllBuildingResponse.builder()
-                            .id(e.getId())
-                            .buildingName(e.getBuildingName())
-                            .totalRooms(e.getTotalRooms())
-                            .totalFloors(e.getTotalFloors())
-                            .city(e.getAddress().getCity())
-                            .wards(e.getAddress().getWards())
-                            .district(e.getAddress().getDistrict())
-                            .createdBy(e.getCreatedBy())
-                            .updatedTime(e.getUpdatedTime())
-                            .moreDetails(e.getAddress().getMoreDetails())
-                            .build());
-                }
-        );
-        return listAllBuildingResponses;
+    public List<RoomGroupResponse> getAllBuilding() {
+        var roomGroup = groupRepo.findAll();
+        List<RoomGroupResponse> responses = new ArrayList<>();
+        roomGroup.forEach(e -> {
+            var contracts = contractRepo.findByGroupIdAndContractTerm(e.getId(), 0);
+            var roomGroupAddress = addressRepo.findById(e.getAddress()).orElse(new Address());
+            var roomListByGroup = roomsRepo.findAllByRoomGroups(e.getId());
+
+            responses.add(RoomGroupResponse.builder().
+                    id(e.getId()).
+                    name(e.getName()).
+                    address(roomGroupAddress).
+                    listRoom(roomListByGroup).
+                    listHandOverAssets(assetsNativeRepo.findHandOverAssetsByContractId(contracts.getId())).
+                    listBasicServices(serviceNativeRepo.findAllGeneralServiceByContractId(contracts.getId())).
+                    build()
+            );
+        });
+        return responses;
     }
 }

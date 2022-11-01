@@ -13,7 +13,7 @@ public interface BuildingManagerService {
 
     Buildings addNewBuilding(AddBuildingRequest request);
 
-    List<ListAllBuildingResponse> getAllBuilding();
+    List<RoomGroupResponse> getAllBuilding();
 
     Buildings getBuilding(Long buildingId);
 
