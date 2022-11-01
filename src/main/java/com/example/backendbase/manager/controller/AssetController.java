@@ -20,8 +20,8 @@ public class AssetController {
     }
 
     @GetMapping("/basic-asset/{assetId}")
-    public ResponseEntity<Object> getBasicAssetById(@PathVariable String assetId) {
-        return ResponseUtils.httpResponse(assetMangerService.getHandOverAssetByContractId(Long.parseLong(assetId)));
+    public ResponseEntity<Object> getBasicAssetById(@PathVariable Long assetId) {
+        return ResponseUtils.httpResponse(assetMangerService.getBasicAsset(assetId));
     }
 
     @PostMapping("/add-basic-asset")

@@ -4,10 +4,8 @@ import com.example.backendbase.manager.entity.AssetTypes;
 import com.example.backendbase.manager.entity.BasicAssets;
 import com.example.backendbase.manager.entity.dto.HandOverAssetsDTO;
 import com.example.backendbase.manager.entity.request.AddBasicAssetRequest;
-import com.example.backendbase.manager.exception.ManagerException;
 import com.example.backendbase.manager.repo.AssetTypesRepo;
 import com.example.backendbase.manager.repo.AssetsRepo;
-import com.example.backendbase.manager.repo.HandOverAssetsRepo;
 import com.example.backendbase.manager.repo.native_repo.AssetsNativeRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -72,6 +70,11 @@ public class AssetMangerServiceImpl implements AssetMangerService{
 
     @Override
     public List<HandOverAssetsDTO> updateHandOverAsset(Long contractId) {
+        return null;
+    }
+
+    @Override
+    public Object getBasicAsset(Long assetId) {
         return null;
     }
 }

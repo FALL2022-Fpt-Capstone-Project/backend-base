@@ -62,7 +62,6 @@ public class ExceptionHandlers {
                     .message("Wrong username or password!!")
                     .build(), null);
         }
-
         if (e instanceof UsernameNotFoundException) {
             e.printStackTrace();
             return new Response(ResponseStatus.builder()

@@ -1,6 +1,7 @@
 package com.example.backendbase.user.util;
 
 import com.example.backendbase.security.service.UserAuthenDetailsImpl;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Objects;

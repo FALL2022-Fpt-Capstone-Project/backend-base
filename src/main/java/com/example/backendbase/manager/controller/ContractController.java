@@ -19,6 +19,13 @@ public class ContractController {
         return ResponseUtils.httpResponse(contractManagerService.addNewContract(request));
     }
 
+    @PutMapping("/update-contract/rooms/{contractId}")
+    public ResponseEntity<Object> updateContract(@RequestBody AddContractRequest request,
+                                                 @PathVariable Long contractId) throws ManagerException {
+        return ResponseUtils.httpResponse(contractManagerService.updateContract(request, contractId));
+    }
+
+
     @GetMapping("/get-contract/{id}")
     public ResponseEntity<Object> getContract(@RequestParam(name = "filter", required = false) String filter,
                                               @RequestParam(name = "duration", defaultValue = "1", required = false) String duration,

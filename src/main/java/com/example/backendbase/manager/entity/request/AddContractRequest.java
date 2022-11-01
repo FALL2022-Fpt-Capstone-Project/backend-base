@@ -92,6 +92,8 @@ public class AddContractRequest {
     @Getter
     @Setter
     public static class HandOverAssetsRequest {
+        @JsonProperty("hand_over_asset_id")
+        private Long handOverAssetId;
 
         @JsonProperty("asset_id")
         private Long assetsId;
@@ -116,6 +118,8 @@ public class AddContractRequest {
     @Setter
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class HandOverGeneralService {
+        private Long handOverGeneralServiceId;
+
         private Long generalServiceId;
 
         private Integer handOverServiceIndex;
@@ -128,6 +132,8 @@ public class AddContractRequest {
     @Setter
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Renter {
+        private Long id;
+
         private String name;
 
         private Boolean gender;

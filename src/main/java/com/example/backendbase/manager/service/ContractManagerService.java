@@ -25,4 +25,6 @@ public interface ContractManagerService {
     NumberOfContractResponse getNumberOfContract(String filter, Long id);
 
     RoomContractDTO getRoomContract(Long id);
+
+    AddContractRequest updateContract(AddContractRequest request, Long contractId);
 }

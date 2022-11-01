@@ -156,4 +156,9 @@ public class ContractManagerServiceImpl implements ContractManagerService {
     public RoomContractDTO getRoomContract(Long id) {
         return null;
     }
+
+    @Override
+    public AddContractRequest updateContract(AddContractRequest request, Long contractId) {
+        return null;
+    }
 }

@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -79,7 +78,7 @@ public class ContractNativeRepo {
         roomToAddContract.setContracts(contract.getId());
         roomsRepo.save(roomToAddContract);
 
-        if (!request.getHandOverGeneralServices().isEmpty()) {
+        if (!request.getBasicAssets().isEmpty()) {
             List<HandOverAssets> handOverAssets = new ArrayList<>();
 
             List<HandOverAssets> additionalAssets = new ArrayList<>();

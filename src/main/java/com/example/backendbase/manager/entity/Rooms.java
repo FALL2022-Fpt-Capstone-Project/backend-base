@@ -52,4 +52,8 @@ public class Rooms {
     @Column(name = "contract_id")
     @JsonProperty("contract_id")
     private Long contracts;
+
+    @Column(name = "room_price")
+    @JsonProperty("room_price")
+    private Double price;
 }
